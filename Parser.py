@@ -9,6 +9,21 @@ class TreeNode:
     
 
 class Parser:
+    # reads in the tokens 
+    def __init__(self, tokens):
+        self.tokens = tokens
+        self.position = 0
+        self.cur_token = tokens[self.position] if tokens else None
+
+    # advances the token 
+    def advance(self):
+        self.position += 1
+        if self.position >= len(self.tokens):
+            self.cur_token = None
+        else:
+            self.cur_token = self.tokens[self.position]
+
+
     def __init__(self):
         self.parse_table = self.buildParsetable()
         self.parse_tree = None
