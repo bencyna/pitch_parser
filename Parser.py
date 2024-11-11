@@ -1,18 +1,5 @@
 from collections import deque
 
-'''
-## CFG
-S → EXPRESSON S | PLAY | TIMES | $
-NOTE → <capital_letter A-H> <num> LENGTH  
-LENGTH → w | h | q | e | s 
-VAR →  <capital_letter A-Z> LET POSTVAR
-LET → <lowercase_letter a-z> | <lowercase_letter a-z> LET
-POSTVAR → ε | =NOTE
-TIMES → NUMBER times {PLAY} S 
-PLAY → play (Expression) S 
-EXPRESSiON → NOTE | VAR
-'''
-
 class TreeNode:
     def __init__(self, value):
         self.value = value
@@ -20,67 +7,85 @@ class TreeNode:
         
     def add_child(self, value):
         self.children.append(TreeNode(value))
-        
-    
 
 class Parser:
     # reads in the tokens 
     def __init__(self, tokens):
         self.tokens = tokens
         self.position = 0
-        self.cur_token = tokens[self.position] if tokens else None
-        self.current_tokens = deque()
-        self.head = TreeNode("Head") # 
+        self.head = TreeNode("Head")
         self.CFG ={
-            'S': [["EXPRESSION", 'S'], ['PLAY'], ['TIMES'], ["$"]],
-            'NOTE': [['A-H', 'LENGTH']],
-            'LENGTH': [['w'], ['h'], ['q'], ['e'], ['s']],
-            'VAR': ['A-Z', 'LET', 'POSTVAR'],
-            'LET': [['a-z'], ['a-z', 'LET']],
-            'POSTVAR': [['epsilon'], ['=','NOTE']],
-            'TIMES': ['NUMBER', 'times', '{', 'PLAY', '}', 'S'],
-            'PLAY': ['play', '(', 'EXPRESSION', ')', 'S'],
-            'EXPRESSION': [['NOTE'], ['VAR']],
+            'S': [["EXPRESSION", 'S'], ['PLAY', 'S'], ['TIMES', 'S'], ["$"]],
+            'POSTVAR': [['=','NOTE'], ['epsilon']],
+            'TIMES': [['NUM', 'times', '{', 'PLAY', '}']],
+            'PLAY': [['play', '(', 'EXPRESSION2', ')']],
+            'EXPRESSION': [['NOTE'], ['VAR', 'POSTVAR']],
+            'EXPRESSION2': [['NOTE', 'EXPRESSION2'], ['VAR', 'EXPRESSION2'], ['epsilon']],
         }
-        self.terminals = {'A-H', 'A-Z', 'a-z', '=', '{', '}', '(', ')', 'w', 'h', 'q', 'e', 's', 'play', 'times', 'NUMBER', '$'}
-        
-        
-
-    # advances the token 
-    def advance(self):
-        self.position += 1
-        if self.position >= len(self.tokens):
-            self.cur_token = None
-        else:
-            self.cur_token = self.tokens[self.position]
-
-
-    def __init__(self):
-        self.parse_tree = self.buildParseTree()
-
+        self.terminals = {'$': '$','NOTE': 'NOTE', 'NUM':"INTEGER", 'play':'play', '(':'(', ')':')', 'times':'times', '{':'{', '}':'}', 'epsilon':'epsilon', '=':'=', 'VAR':'IDENTIFIER'}
     
-    def buildParseTree(self, token_idx=0):
-        if not self.current_tokens and not self.cur_token:
-            return True
-          
-        # if the current token is a non-terminal
-            # check if the non terminal matches the next chars
-
-          
-        # loop through CFG for first token in list
-           # select the token and run CFG
-      
-      
+    def buildParseTree(self, production_rule, token_pos):
+        print(production_rule, token_pos)
+        # If we've gone past the end of the tokens, fail unless we're at the end symbol
+        if token_pos >= len(self.tokens) and (production_rule != '$' and production_rule != 'S'):
+            return False
+        
+        if production_rule in self.terminals:
+            # Does the token value or type match the rule?
+            tokenType, tokenValue = self.tokens[token_pos] if token_pos < len(self.tokens) else ('$', '$')
+            
+            # Handle epsilon and $ cases
+            if production_rule == '$':
+                # Succeed only if we've reached the end of tokens
+                if token_pos >= len(self.tokens):
+                    print("End of tokens reached!! Successful parse")
+                    return True
+                else:
+                    return False
+            
+            # Check if the terminal matches the token at this position
+            if tokenType == self.terminals[production_rule] or tokenValue == self.terminals[production_rule]:
+                print("Terminal rule success: ", production_rule, " at token pos: ", token_pos)
+                # If at the last token, confirm successful parse
+                self.position += 1
+                return True
+            
+        else:
+            # Try each production rule for the non-terminal
+            for production in self.CFG[production_rule]:
+                found_success = True
+                for sub_rule in production:
+                    if sub_rule == 'epsilon':
+                        continue
+                    # Recursively parse the sub_rule
+                    if not self.buildParseTree(sub_rule, self.position):
+                        found_success = False
+                        self.position = token_pos  # Reset the position if this production failed
+                        break  # Stop if this production fails
+                
+                # If a production rule succeeded entirely, return success
+                if found_success:
+                    print("Production rule success: ", production_rule, " at token pos: ", token_pos)
+                    return True
+            
+            # If no production matched, fail this rule
+            return False
+       
     def printParseTree(self):
         self.generateParseTree()
         # print it to the console nicely 
         pass
-    
-    
 
+# Sample usage
+example =  [
+  ('Keyword', 'play'),
+    ('Delimiter', '('),
+    ('NOTE', 'A4w'),
+    ('NOTE', 'A4w'),
+    ('Delimiter', ')')
+    ]
 
-# Example 1
-tokens = [
+example2 =  [
     ('IDENTIFIER', 'Thats'),
     ('OPERATOR', '='),
     ('NOTE', 'G4w'),
@@ -94,6 +99,42 @@ tokens = [
     ('OPERATOR', '='),
     ('NOTE', 'C4q'),
     ('NOTE', 'B4q')
-]    
-parser = Parser(tokens)
-parser.printParseTree()
+    ]
+
+example3 =  [
+    ('IDENTIFIER', 'Happy'),
+    ('OPERATOR', '='),
+    ('NOTE', 'A4w'),
+    ('IDENTIFIER', 'Birthday'),
+    ('OPERATOR', '='),
+    ('NOTE', 'A4w'),
+    ('NOTE', 'A4h'),
+    ('NOTE', 'B4w'),
+    ('NOTE', 'A4w'),
+    ('NOTE', 'D4h'),
+    ('IDENTIFIER', 'To'),
+    ('OPERATOR', '='),
+    ('NOTE', 'A4w'),
+    ('NOTE', 'A4h'),
+    ('NOTE', 'B4w'),
+    ('NOTE', 'A4w'),
+    ('IDENTIFIER', 'You'),
+    ('OPERATOR', '='),
+    ('NOTE', 'D4w'),
+    ('INTEGER', '5'),
+    ('Keyword', 'times'),
+    ('Delimitter', '{'),
+    ('Keyword', 'play'),
+    ('Delimiter', '('),
+    ('IDENTIFIER', 'Birthday'),
+    ('IDENTIFIER', 'To'),
+    ('IDENTIFIER', 'You'),
+    ('Delimiter', ')'),
+    ('Delimiter', '}')
+]
+
+parser = Parser(example3)
+if parser.buildParseTree('S', 0):
+    print("Parsing succeeded!")
+else:
+    print("Parsing failed.")
