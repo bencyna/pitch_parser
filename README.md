@@ -3,15 +3,19 @@
 
 ## CFG
 
-S → EXPRESSON S | PLAY | TIMES | $
-NOTE → <capital_letter A-G> <num> LENGTH  
-LENGTH → w | h | q | e | s 
-VAR →  <capital_letter A-Z> LET POSTVAR
-LET → <lowercase_letter a-z> | <lowercase_letter a-z> LET
-POSTVAR → ε | =NOTE
-TIMES → NUMBER times {PLAY} S 
-PLAY → play (EXPRESSION) S 
-EXPRESSiON → NOTE | VAR
+S → EXPRESSON S | PLAY | TIMES | $ <br>
+NOTE → <capital_letter A-H> <num> LENGTH <br>
+LENGTH → w | h | q | e | s <br>
+VAR →  <capital_letter A-Z> LET POSTVAR <br>
+LET → <lowercase_letter a-z> | <lowercase_letter a-z> LET <br>
+POSTVAR → ε | =NOTE <br>
+TIMES → NUMBER times {PLAY} S <br>
+PLAY → play (Expression) S <br>
+EXPRESSiON → NOTE | VAR <br>
+
+## Run Instructions 
+Make sure you have python3 installed.   <br>
+You can install it from here https://www.python.org/downloads/  <br>
 
 
 ## Sample inputs 

@@ -16,7 +16,7 @@ class Parser:
         self.head = TreeNode("Head")
         self.CFG ={
             'S': [["EXPRESSION", 'S'], ['PLAY', 'S'], ['TIMES', 'S'], ["$"]],
-            'POSTVAR': [['epsilon'], ['=','NOTE']],
+            'POSTVAR': [['=','NOTE'], ['epsilon']],
             'TIMES': [['NUM', 'times', '{', 'PLAY', '}']],
             'PLAY': [['play', '(', 'EXPRESSION2', ')']],
             'EXPRESSION': [['NOTE'], ['VAR', 'POSTVAR']],
@@ -77,12 +77,63 @@ class Parser:
         pass
 
 # Sample usage
-example =  [('Keyword', 'play'),
+example =  [
+  ('Keyword', 'play'),
     ('Delimiter', '('),
     ('NOTE', 'A4w'),
     ('NOTE', 'A4w'),
-    ('Delimiter', ')')]
-parser = Parser(example)
+    ('Delimiter', ')')
+    ]
+
+example2 =  [
+    ('IDENTIFIER', 'Thats'),
+    ('OPERATOR', '='),
+    ('NOTE', 'G4w'),
+    ('IDENTIFIER', 'That'),
+    ('OPERATOR', '='),
+    ('NOTE', 'G4h'),
+    ('IDENTIFIER', 'Me'),
+    ('OPERATOR', '='),
+    ('NOTE', 'B4h'),
+    ('IDENTIFIER', 'Espresso'),
+    ('OPERATOR', '='),
+    ('NOTE', 'C4q'),
+    ('NOTE', 'B4q')
+    ]
+
+example3 =  [
+    ('IDENTIFIER', 'Happy'),
+    ('OPERATOR', '='),
+    ('NOTE', 'A4w'),
+    ('IDENTIFIER', 'Birthday'),
+    ('OPERATOR', '='),
+    ('NOTE', 'A4w'),
+    ('NOTE', 'A4h'),
+    ('NOTE', 'B4w'),
+    ('NOTE', 'A4w'),
+    ('NOTE', 'D4h'),
+    ('IDENTIFIER', 'To'),
+    ('OPERATOR', '='),
+    ('NOTE', 'A4w'),
+    ('NOTE', 'A4h'),
+    ('NOTE', 'B4w'),
+    ('NOTE', 'A4w'),
+    ('IDENTIFIER', 'You'),
+    ('OPERATOR', '='),
+    ('NOTE', 'D4w'),
+    ('INTEGER', '5'),
+    ('Keyword', 'times'),
+    ('Delimitter', '{'),
+    ('Keyword', 'play'),
+    ('Delimiter', '('),
+    ('IDENTIFIER', 'Birthday'),
+    ('IDENTIFIER', 'To'),
+    ('IDENTIFIER', 'You'),
+    ('Delimiter', ')'),
+    ('Delimiter', '}')
+]
+
+parser = Parser(example3)
 if parser.buildParseTree('S', 0):
     print("Parsing succeeded!")
 else:
