@@ -13,7 +13,6 @@ class Parser:
     def __init__(self, tokens):
         self.tokens = tokens
         self.position = 0
-        self.terminalQueue = deque('S')
         self.head = TreeNode("Head")
         self.CFG ={
             'S': [["EXPRESSION", 'S'], ['PLAY', 'S'], ['TIMES', 'S'], ["$"]],
