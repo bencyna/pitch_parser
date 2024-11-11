@@ -1,5 +1,18 @@
 from collections import deque
 
+'''
+## CFG
+S → EXPRESSON S | PLAY | TIMES | $
+NOTE → <capital_letter A-H> <num> LENGTH  
+LENGTH → w | h | q | e | s 
+VAR →  <capital_letter A-Z> LET POSTVAR
+LET → <lowercase_letter a-z> | <lowercase_letter a-z> LET
+POSTVAR → ε | =NOTE
+TIMES → NUMBER times {PLAY} S 
+PLAY → play (Expression) S 
+EXPRESSiON → NOTE | VAR
+'''
+
 class TreeNode:
     def __init__(self, value):
         self.value = value
@@ -17,7 +30,7 @@ class Parser:
         self.position = 0
         self.cur_token = tokens[self.position] if tokens else None
         self.current_tokens = deque()
-        self.head = TreeNode("Head")
+        self.head = TreeNode("Head") # 
         self.CFG ={
             'S': [["EXPRESSION", 'S'], ['PLAY'], ['TIMES'], ["$"]],
             'NOTE': [['A-H', 'LENGTH']],
@@ -64,3 +77,23 @@ class Parser:
         pass
     
     
+
+
+# Example 1
+tokens = [
+    ('IDENTIFIER', 'Thats'),
+    ('OPERATOR', '='),
+    ('NOTE', 'G4w'),
+    ('IDENTIFIER', 'That'),
+    ('OPERATOR', '='),
+    ('NOTE', 'G4h'),
+    ('IDENTIFIER', 'Me'),
+    ('OPERATOR', '='),
+    ('NOTE', 'B4h'),
+    ('IDENTIFIER', 'Espresso'),
+    ('OPERATOR', '='),
+    ('NOTE', 'C4q'),
+    ('NOTE', 'B4q')
+]    
+parser = Parser(tokens)
+parser.printParseTree()
