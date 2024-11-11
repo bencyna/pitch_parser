@@ -175,7 +175,22 @@ example3 =  [
     ('Delimiter', ')'),
     ('Delimiter', '}')
 ]
-parser = Parser(example)
+
+example4 = [
+  ('IDENTIFIER', 'Thats'),
+  ('NOTE', 'G4w')
+  # ('$', '$')
+]
+
+example5 = [
+  ('IDENTIFIER', 'Thats'),
+  ('OPERATOR', '='),
+  ('NOTE', 'G4w'),
+  ('NUM', '3')
+  # ('$', '$')
+]
+
+parser = Parser(example4)
 if parser.head:
     print("Parsing succeeded!")
     parser.levelOrderTraversal()
