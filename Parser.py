@@ -1,19 +1,15 @@
 from collections import deque
 
 class TreeNode:
-    def __init__(self, value):
+    def __init__(self, value, children = None):
         self.value = value
-        self.children = []
-        
-    def add_child(self, value):
-        self.children.append(TreeNode(value))
+        self.children = children if children is not None else []
 
 class Parser:
     # reads in the tokens 
     def __init__(self, tokens):
         self.tokens = tokens
         self.position = 0
-        self.head = TreeNode("Head")
         self.CFG ={
             'S': [["EXPRESSION", 'S'], ['PLAY', 'S'], ['TIMES', 'S'], ["$"]],
             'POSTVAR': [['=','NOTE'], ['epsilon']],
@@ -23,6 +19,7 @@ class Parser:
             'EXPRESSION2': [['NOTE', 'EXPRESSION2'], ['VAR', 'EXPRESSION2'], ['epsilon']],
         }
         self.terminals = {'$': '$','NOTE': 'NOTE', 'NUM':"INTEGER", 'play':'play', '(':'(', ')':')', 'times':'times', '{':'{', '}':'}', 'epsilon':'epsilon', '=':'=', 'VAR':'IDENTIFIER'}
+        self.head = self.buildParseTree('S', 0)
     
     def parseTreeTerminal(self, production_rule, token_pos):
         # Does the token value or type match the rule?
@@ -33,46 +30,56 @@ class Parser:
               # Succeed only if we've reached the end of tokens
               if token_pos >= len(self.tokens):
                   print("End of tokens reached!! Successful parse")
-                  return True
+                  terminal_node = TreeNode('$')
+                  return terminal_node
+
               else:
-                  return False
+                  return None
           
           # Check if the terminal matches the token at this position
           if tokenType == self.terminals[production_rule] or tokenValue == self.terminals[production_rule]:
               print("Terminal rule success: ", production_rule, " at token pos: ", token_pos)
               # If at the last token, confirm successful parse
+              terminal_node = TreeNode(self.terminals[production_rule])
               self.position += 1
-              return True
+              return terminal_node
           else:
-              return False
+              return None
     
     def parseTreeNonTerminal(self, production_rule, token_pos):
         # Try each production rule for the non-terminal
+          children = []
           for production in self.CFG[production_rule]:
+              children = []
               found_success = True
               for sub_rule in production:
                   if sub_rule == 'epsilon':
+                      sub_rule_node = TreeNode(sub_rule)
+                      children.append(sub_rule_node)
                       continue
                   # Recursively parse the sub_rule
-                  if not self.buildParseTree(sub_rule, self.position):
+                  child_node = self.buildParseTree(sub_rule, self.position)
+                  if not child_node:
                       found_success = False
                       self.position = token_pos  # Reset the position if this production failed
                       break  # Stop if this production fails
-              
+                  else:
+                      children.append(child_node)
               # If a production rule succeeded entirely, return success
               if found_success:
                   print("Production rule success: ", production_rule, " at token pos: ", token_pos)
-                  return True
+                  production_node = TreeNode(production_rule, children)
+                  return production_node
           
           # If no production matched, fail this rule
-          return False
+          return None
         
         
     def buildParseTree(self, production_rule, token_pos):
         print(production_rule, token_pos)
         # If we've gone past the end of the tokens, fail unless we're at the end symbol
         if token_pos >= len(self.tokens) and (production_rule != '$' and production_rule != 'S'):
-            return False
+            return None
         
         if production_rule in self.terminals:
             return self.parseTreeTerminal(production_rule, token_pos)
@@ -84,6 +91,33 @@ class Parser:
         self.generateParseTree()
         # print it to the console nicely 
         pass
+      
+    def levelOrderTraversal(self, start = None):
+        # print the tree in level order
+        cur_level = []
+        q = deque()
+        q.append(self.head if not start else start)
+        levelCount = 1
+        while q:
+            node = q.popleft()
+            cur_level.append(node.value)
+            for child in node.children:
+                q.append(child)
+            
+            levelCount -= 1
+            if levelCount == 0:
+                levelCount = len(q)
+                print(cur_level)
+                cur_level = []
+                
+    
+
+              
+            
+            
+                
+                
+
 
 # Sample usage
 example =  [
@@ -141,9 +175,9 @@ example3 =  [
     ('Delimiter', ')'),
     ('Delimiter', '}')
 ]
-
-parser = Parser(example3)
-if parser.buildParseTree('S', 0):
+parser = Parser(example)
+if parser.head:
     print("Parsing succeeded!")
+    parser.levelOrderTraversal()
 else:
     print("Parsing failed.")
