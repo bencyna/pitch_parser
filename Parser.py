@@ -15,47 +15,58 @@ class Parser:
     def __init__(self, tokens):
         self.tokens = tokens
         self.position = 0
-        self.cur_token = tokens[self.position] if tokens else None
-        self.current_tokens = deque()
+        self.terminalQueue = deque('S')
         self.head = TreeNode("Head")
         self.CFG ={
             'S': [["EXPRESSION", 'S'], ['PLAY'], ['TIMES'], ["$"]],
-            'NOTE': [['A-H', 'LENGTH']],
-            'LENGTH': [['w'], ['h'], ['q'], ['e'], ['s']],
-            'VAR': ['A-Z', 'LET', 'POSTVAR'],
-            'LET': [['a-z'], ['a-z', 'LET']],
             'POSTVAR': [['epsilon'], ['=','NOTE']],
-            'TIMES': ['NUMBER', 'times', '{', 'PLAY', '}', 'S'],
-            'PLAY': ['play', '(', 'EXPRESSION', ')', 'S'],
-            'EXPRESSION': [['NOTE'], ['VAR']],
+            'TIMES': [['NUM', 'times', '{', 'PLAY', '}', 'S']],
+            'PLAY': [['play', '(', 'EXPRESSION', ')', 'S']],
+            'EXPRESSION': [['NOTE'], ['VAR', 'POSTVAR']],
         }
-        self.terminals = {'A-H', 'A-Z', 'a-z', '=', '{', '}', '(', ')', 'w', 'h', 'q', 'e', 's', 'play', 'times', 'NUMBER', '$'}
-        
-        
-
-    # advances the token 
-    def advance(self):
-        self.position += 1
-        if self.position >= len(self.tokens):
-            self.cur_token = None
-        else:
-            self.cur_token = self.tokens[self.position]
-
-
-    def __init__(self):
-        self.parse_tree = self.buildParseTree()
+        self.terminals = {'$': '$','NOTE': 'NOTE', 'NUM':"INTEGER", 'play':'play', '(':'(', ')':')', 'times':'times', '{':'{', '}':'}', 'epsilon':'epsilon', '=':'=', 'VAR':'IDENTIFIER'}
 
     
-    def buildParseTree(self, token_idx=0):
-        if not self.current_tokens and not self.cur_token:
-            return True
+    def buildParseTree(self, production_rule, token_pos):
+        if token_pos >= len(self.tokens) and production_rule != '$':
+            return False
           
-        # if the current token is a non-terminal
-            # check if the non terminal matches the next chars
+        if production_rule in self.terminals:
+            # does the token value or type match the rule
+            tokenType, tokenValue = self.tokens[token_pos]
+            
+            # epsilon case and $ case
+            if production_rule == '$' and token_pos >= len(self.tokens):
+                print("End of tokens reached")
+                return True
 
+            
+            if tokenType == self.terminals[production_rule] or tokenValue == self.terminals[production_rule]:
+                print("Terminal rule success: ", production_rule, " at token pos: ", token_pos)
+                if token_pos == len(self.tokens) - 1:
+                    print("End of tokens reached!! Successful parse")
+                return True
+            
           
-        # loop through CFG for first token in list
-           # select the token and run CFG
+        else:
+            for production in self.CFG[production_rule]:
+                found_sucess = True
+                cur_token_pos = token_pos
+                for sub_rule in production:
+                    if not self.buildParseTree(sub_rule, cur_token_pos):
+                        found_sucess = False
+                        break
+                    else:
+                        cur_token_pos += 1
+                if found_sucess:
+                    print("Production rule success: ", production_rule, " at token pos: ", token_pos)
+                    return True
+                  
+            return False
+       
+                        
+          
+
       
       
     def printParseTree(self):
@@ -63,4 +74,11 @@ class Parser:
         # print it to the console nicely 
         pass
     
-    
+
+
+example =  [('Keyword', 'play'),
+    ('Delimiter', '('),
+    ('NOTE', 'A4w'),
+    ('Delimiter', ')')]
+parser = Parser(example)
+parser.buildParseTree('S', 0)

@@ -4,13 +4,13 @@
 ## CFG
 
 S → EXPRESSON S | PLAY | TIMES | $
-NOTE → <capital_letter A-H> <num> LENGTH  
+NOTE → <capital_letter A-G> <num> LENGTH  
 LENGTH → w | h | q | e | s 
 VAR →  <capital_letter A-Z> LET POSTVAR
 LET → <lowercase_letter a-z> | <lowercase_letter a-z> LET
 POSTVAR → ε | =NOTE
 TIMES → NUMBER times {PLAY} S 
-PLAY → play (Expression) S 
+PLAY → play (EXPRESSION) S 
 EXPRESSiON → NOTE | VAR
 
 ## Usage 
