@@ -63,8 +63,13 @@ class Parser:
               if found_success:
                   print("Production rule success: ", production_rule, " at token pos: ", token_pos)
                   return True
-          
-          # If no production matched, fail this rule
+                    # If no production matched, fail this rule
+          if production_rule == 'EXPRESSION':
+            tokenType, tokenValue = self.tokens[token_pos] if token_pos < len(self.tokens) else ('$', '$')
+            if tokenType == 'IDENTIFIER':
+                self.error(f"Missing assignment for '{tokenValue}' variable")
+        
+        # If no production matched, fail this rule
           return False
         
         
@@ -142,8 +147,32 @@ example3 =  [
     ('Delimiter', '}')
 ]
 
-parser = Parser(example3)
-if parser.buildParseTree('S', 0):
-    print("Parsing succeeded!")
-else:
-    print("Parsing failed.")
+# Missing assignment for 'Thats' variable 
+example4 = [
+    ('IDENTIFIER', 'Thats'),
+    ('NOTE', 'G4w'),
+    ('$', '$')
+]
+
+# extra number 3
+example5 = [
+    ('IDENTIFIER', 'Thats'),
+    ('OPERATOR', '='),
+    ('NOTE', 'G4w'),
+    ('NUM', '3'),
+    ('$', '$')
+]
+
+# Test cases
+examples = [example4]
+
+for i, tokens in enumerate(examples):
+  print(f"\nExample {i+1}:")
+  parser = Parser(tokens)
+  try:
+    if parser.buildParseTree('S', 0):
+      print("Parsing succeeded!")
+    else:
+      print("Parsing failed.")
+  except SyntaxError as e:
+    print(f"Parsing failed with error: {e}")
