@@ -3,14 +3,15 @@
 
 ## CFG
 
-S -> EXPRESSION S | PLAY | TIMES | $
-EXPRESSION -> NOTE | IDENTIFIER 
-NOTE -> [A-G][0-9][w|h|q|e|s]
-IDENTIFIER -> [A-Z] LETTER POSTVAR
-LETTER -> [a-z] | [a-z] LETTER
-POSTVAR -> ε | = NOTE
-TIMES -> int times (PLAY) S
-PLAY -> play(EXPRESSION) S
+S → EXPRESSON S | PLAY | TIMES | $
+NOTE → <capital_letter A-H> <num> LENGTH  
+LENGTH → w | h | q | e | s 
+VAR →  <capital_letter A-Z> LET POSTVAR
+LET → <lowercase_letter a-z> | <lowercase_letter a-z> LET
+POSTVAR → ε | =NOTE
+TIMES → NUMBER times {PLAY} S 
+PLAY → play (Expression) S 
+EXPRESSiON → NOTE | VAR
 
 ## Usage 
 
