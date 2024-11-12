@@ -18,7 +18,8 @@ Make sure you have python3 installed.   <br>
 You can install it from here https://www.python.org/downloads/  <br>
 
 ### Option 1, Our own test cases
-Now make sure to set the permission for the .sh files. You use these two commands. Run them one after 
+Now make sure to set the permission for the .sh files. <br>
+You use these two commands. Run them one after 
 the other <br>
 ``` chmod +x run_scanner.sh ```
 <br> 

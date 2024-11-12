@@ -121,12 +121,12 @@ class LexerDfa:
     if self.cur_char == "(":
       # print("parenthesis")
       self.advance()
-      self.tokens.append(("Delimiter", "("))
+      self.tokens.append(("DELIMITER", "("))
       # print(self.cur_char)  # it will either be variable starting with ABCDEFG variable with H-Z or a note
       
       if self.note_or_variable():
          if self.cur_char == ")":
-            self.tokens.append(("Delimiter", ")"))
+            self.tokens.append(("DELIMITER", ")"))
             self.advance()
             # print("parenthesis2")
             return True
@@ -138,7 +138,7 @@ class LexerDfa:
       self.errors.append("Error: Missing ( in play token.")
       if self.note_or_variable():
          if self.cur_char == ")":
-            self.tokens.append(("Delimiter", ")"))
+            self.tokens.append(("DELIMITER", ")"))
             self.advance()
             return True
          else:
@@ -174,7 +174,7 @@ class LexerDfa:
   def end_bracket(self):
       # Handles DFA state for recognizing the end bracket of a times token
       if self.cur_char == "}":
-        self.tokens.append(("Keyword", "}")) # 
+        self.tokens.append(("DELIMITER", "}")) # 
         self.advance()
         # This is an accept state
       else:
@@ -223,7 +223,7 @@ class LexerDfa:
                     self.advance()
                   if self.cur_char == "{":
                     self.advance()
-                    self.tokens.append(("Keyword", "{"))
+                    self.tokens.append(("Delimiter", "{"))
                     if self.cur_char is not None and self.cur_char.isspace():
                       # print("space")
                       self.advance()
@@ -231,7 +231,7 @@ class LexerDfa:
                        self.end_bracket()
                   else:
                     self.errors.append("Error: Invalid token, missing { in times token.")
-                    self.tokens.append(("Keyword", "{"))
+                    self.tokens.append(("KEYWORD", "{"))
                     if self.cur_char is not None and self.cur_char.isspace():
                       self.advance()
                     elif self.play_token():
@@ -239,19 +239,19 @@ class LexerDfa:
                 else:
                     self.errors.append("Error: Invalid token, missing s in times token.")
                     self.advance()
-                    self.tokens.append(("Keyword", "times"))
+                    self.tokens.append(("KEYWORD", "times"))
                     if self.cur_char is not None and self.cur_char.isspace():
                       self.advance()
                     elif self.cur_char == "{":
                       self.advance()
-                      self.tokens.append(("Keyword", "{"))
+                      self.tokens.append(("KEYWORD", "{"))
                       if self.cur_char is not None and self.cur_char.isspace():
                         self.advance()
                       elif self.play_token():
                          self.end_bracket()
                     else:
                         self.errors.append("Error: Invalid token, missing { in times token.")
-                        self.tokens.append(("Keyword", "{"))
+                        self.tokens.append(("KEYWORD", "{"))
                         if self.cur_char is not None and self.cur_char.isspace():
                           self.advance()
                         elif self.play_token(): 
