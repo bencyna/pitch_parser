@@ -18,7 +18,19 @@ class Parser:
             'EXPRESSION': [['NOTE'], ['VAR', 'POSTVAR']],
             'EXPRESSION2': [['NOTE', 'EXPRESSION2'], ['VAR', 'EXPRESSION2'], ['epsilon']],
         }
-        self.terminals = {'$': '$','NOTE': 'NOTE', 'NUM':"INTEGER", 'play':'play', '(':'(', ')':')', 'times':'times', '{':'{', '}':'}', 'epsilon':'epsilon', '=':'=', 'VAR':'IDENTIFIER'}
+        self.terminals = {
+            '$': '$',
+            'NOTE': 'NOTE', 
+            'NUM':"INTEGER", 
+            'play':'play', 
+            '(':'(', 
+            ')':')', 
+            'times':'times', 
+            '{':'{', '}':'}', 
+            'epsilon':'epsilon', 
+            '=':'=', 
+            'VAR':'IDENTIFIER'
+        }
         self.head = self.buildParseTree('S', 0)
     
     def parseTreeTerminal(self, production_rule, token_pos):
@@ -120,7 +132,7 @@ class Parser:
 
 
 # Sample usage
-example =  [
+example1 =  [
   ('Keyword', 'play'),
     ('Delimiter', '('),
     ('NOTE', 'A4w'),
@@ -179,7 +191,6 @@ example3 =  [
 example4 = [
   ('IDENTIFIER', 'Thats'),
   ('NOTE', 'G4w')
-  # ('$', '$')
 ]
 
 example5 = [
@@ -187,7 +198,6 @@ example5 = [
   ('OPERATOR', '='),
   ('NOTE', 'G4w'),
   ('NUM', '3')
-  # ('$', '$')
 ]
 
 parser = Parser(example4)
