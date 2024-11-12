@@ -140,8 +140,19 @@ class Parser:
                 
     def removeDelimittersAndStart(self):
         # from TreeNode, remove the delimiters and start symbol
-        def dfs(node):
-            i
+        def dfs(node, first=False):
+            new_children = []
+            for child in node.children:
+                next_level = dfs(child)
+                new_children.extend(next_level)
+            
+            if first or not ('{' in node.value or '}' in node.value or '(' in node.value or ')' in node.value or node.value == "S" or node.value == '$'):
+                node.children = new_children
+                return [node]
+            else:
+                return new_children
+
+        dfs(self.head, first=True)
         
       
     def print_ParseTree(self, node=None, level=0, prefix="", is_last=True):
