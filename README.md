@@ -4,7 +4,7 @@
 ## CFG
 
 S → EXPRESSON S | PLAY S | TIMES S | $ <br>
-POSTVAR → =NOTE | ε <br>
+ASSIGNMENT → =NOTE | ε <br>
 TIMES → NUMBER times {PLAY} <br>
 NOTE → <capital_letter A-G> <num> LENGTH <br>
 LENGTH → w | h | q | e | s <br>
@@ -16,18 +16,12 @@ EXPRESSiON → NOTE | VAR <br>
 ## Run Instructions 
 Make sure you have python3 installed.   <br>
 You can install it from here https://www.python.org/downloads/  <br>
-
-### Option 1, Our own test cases
 Now make sure to set the permission for the .sh files. <br>
-You use these two commands. Run them one after 
-the other <br>
-``` chmod +x run_full_compiler.sh ```
-<br> 
 
-``` chmod +x run_full_tests.sh run_lexer_tests.sh run_parser_tests.sh```
+``` chmod +x run_full_compiler.sh run_full_tests.sh run_lexer_tests.sh run_parser_tests.sh```
 <br>
 
-The provided test cases (see below) are also built into our code. You can run these test cases using the following command. <br> 
+The provided test cases (see below) are also built into our code. You can run these test cases using the following commands: <br> 
 
 To run the lexer, and then have the lexer tokens run in the parser run:
 ``` ./run_full_tests.sh ``` 
@@ -38,7 +32,8 @@ To run the lexer tests:
 To run the Parser tests:
 ``` ./run_parser_tests.sh ``` 
 
-
+To run the scanner to provide your own inputs:
+``` ./run_full_compiler.sh ``` 
 
 ## Sample inputs 
 
