@@ -21,22 +21,26 @@ You can install it from here https://www.python.org/downloads/  <br>
 Now make sure to set the permission for the .sh files. <br>
 You use these two commands. Run them one after 
 the other <br>
-``` chmod +x run_scanner.sh ```
+``` chmod +x run_full_compiler.sh ```
 <br> 
 
-``` chmod +x run_tests.sh ```
+``` chmod +x run_full_tests.sh run_lexer_tests.sh run_parser_tests.sh```
 <br>
+
 The provided test cases (see below) are also built into our code. You can run these test cases using the following command. <br> 
 
-``` ./run_tests.sh ``` 
+To run the lexer, and then have the lexer tokens run in the parser run:
+``` ./run_full_tests.sh ``` 
+
+To run the lexer tests:
+``` ./run_lexer_tests.sh ``` 
+
+To run the Parser tests:
+``` ./run_parser_tests.sh ``` 
+
 
 
 ## Sample inputs 
-Provide 5 sample input programs with their expected AST for testing. Write the
-input programs such that you can
-■ Demonstrate different syntactic structures, such as expressions, control
-statements, and nesting.
-■ Error handling capabilities of your parser.
 
 ### Input 1
 

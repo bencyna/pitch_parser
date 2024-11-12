@@ -16,10 +16,10 @@ class Parser:
         self.position = 0
         self.CFG ={
             'S': [["EXPRESSION", 'S'], ['PLAY', 'S'], ['TIMES', 'S'], ["$"]],
-            'POSTVAR': [['=','NOTE'], ['epsilon']],
+            'ASSIGNMENT': [['=','NOTE'], ['epsilon']],
             'TIMES': [['NUM', 'times', '{', 'PLAY', '}']],
             'PLAY': [['play', '(', 'EXPRESSION2', ')']],
-            'EXPRESSION': [['NOTE'], ['VAR', 'POSTVAR']],
+            'EXPRESSION': [['NOTE'], ['VAR', 'ASSIGNMENT']],
             'EXPRESSION2': [['NOTE', 'EXPRESSION2'], ['VAR', 'EXPRESSION2'], ['epsilon']],
         }
         self.terminals = {
@@ -55,7 +55,7 @@ class Parser:
           
           # Check if the terminal matches the token at this position
           if tokenType == self.terminals[production_rule] or tokenValue == self.terminals[production_rule]:
-              print("Terminal rule success: ", production_rule, " at token pos: ", token_pos)
+              # print("Terminal rule success: ", production_rule, " at token pos: ", token_pos)
               # If at the last token, confirm successful parse
               # terminal_node = TreeNode(self.terminals[production_rule])
               terminal_node = TreeNode(tokenValue, token_type=tokenType)
@@ -108,7 +108,7 @@ class Parser:
             
         
     def buildParseTree(self, production_rule, token_pos):
-        print(production_rule, token_pos)
+        # print(production_rule, token_pos)
         # If we've gone past the end of the tokens, fail unless we're at the end symbol
         if token_pos >= len(self.tokens) and (production_rule != '$' and production_rule != 'S'):
             return None

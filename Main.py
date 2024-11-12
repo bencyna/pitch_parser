@@ -57,10 +57,10 @@ def runTestsForLexer():
     ('NOTE', 'B4w')
     ('NOTE', 'A4q')
     ('INTEGER', '5')
-    ('Keyword', 'times')
-    ('Keyword', '{')
-    ('Keyword', 'play')
-    ('Delimiter', '(')
+    ('KEYWORD', 'times')
+    ('DELIMITER', '{')
+    ('KEYWORD', 'play')
+    ('DELIMITER', '(')
     ('IDENTIFIER', 'Thats')
     ('IDENTIFIER', 'That')
     ('IDENTIFIER', 'Me')
@@ -68,8 +68,8 @@ def runTestsForLexer():
     ('NOTE', 'A4w')
     ('NOTE', 'B3h')
     ('NOTE', 'G4w')
-    ('Delimiter', ')')
-    ('Keyword', '}')
+    ('DELIMITER', ')')
+    ('KEYWORD', '}')
     '''
 
     print("\n\n Test 2 \n\n")
@@ -113,16 +113,16 @@ def runTestsForLexer():
     ('NOTE', 'B3h')
     ('NOTE', 'C4w')
     ('INTEGER', '5')
-    ('Keyword', 'times')
-    ('Keyword', '{')
-    ('Keyword', 'play')
-    ('Delimiter', '(')
+    ('KEYWORD', 'times')
+    ('DELIMITER', '{')
+    ('KEYWORD', 'play')
+    ('DELIMITER', '(')
     ('IDENTIFIER', 'Is')
     ('IDENTIFIER', 'It')
     ('IDENTIFIER', 'That')
     ('IDENTIFIER', 'Sweet')
-    ('Delimiter', ')')
-    ('Keyword', '}')
+    ('DELIMITER', ')')
+    ('KEYWORD', '}')
     Errors encountered:
     Error: Invalid note token, missing duration w, h, q, e, s, default as w.
     Error: Invalid token, missing { in times token.
@@ -168,15 +168,15 @@ def runTestsForLexer():
     ('OPERATOR', '=')
     ('NOTE', 'D4w')
     ('INTEGER', '5')
-    ('Keyword', 'times')
-    ('Keyword', '{')
-    ('Keyword', 'play')
-    ('Delimiter', '(')
+    ('KEYWORD', 'times')
+    ('DELIMITER', '{')
+    ('KEYWORD', 'play')
+    ('DELIMITER', '(')
     ('IDENTIFIER', 'Birthday')
     ('IDENTIFIER', 'To')
     ('IDENTIFIER', 'You')
-    ('Delimiter', ')')
-    ('Keyword', '}')
+    ('DELIMITER', ')')
+    ('KEYWORD', '}')
     Errors encountered:
     Error: Invalid octave number 9, default as octave 4.
     '''
@@ -200,14 +200,14 @@ def runTestsForLexer():
 
     # Output:
     '''
-    ('Keyword', 'play')
-    ('Delimiter', '(')
+    ('KEYWORD', 'play')
+    ('DELIMITER', '(')
     ('NOTE', 'A4w')
     ('NOTE', 'B3h')
     ('NOTE', 'G4w')
     ('NOTE', 'C4w')
     ('NOTE', 'D4w')
-    ('Delimiter', ')')
+    ('DELIMITER', ')')
     ('IDENTIFIER', 'Someone')
     ('OPERATOR', '=')
     ('NOTE', 'D3h')
@@ -221,11 +221,11 @@ def runTestsForLexer():
     ('IDENTIFIER', 'Love')
     ('OPERATOR', '=')
     ('NOTE', 'F3q')
-    ('Keyword', 'play')
+    ('KEYWORD', 'play')
     ('IDENTIFIER', 'Someone')
     ('IDENTIFIER', 'To')
     ('IDENTIFIER', 'Love')
-    ('Delimiter', ')')
+    ('DELIMITER', ')')
     Errors encountered:
     Error: Missing ( in play token.
     '''
@@ -294,10 +294,10 @@ def runTestsForLexer():
     ('OPERATOR', '=')
     ('NOTE', 'G3s')
     ('INTEGER', '2')
-    ('Keyword', 'times')
-    ('Keyword', '{')
-    ('Keyword', 'play')
-    ('Delimiter', '(')
+    ('KEYWORD', 'times')
+    ('DELIMITER', '{')
+    ('KEYWORD', 'play')
+    ('DELIMITER', '(')
     ('IDENTIFIER', 'White')
     ('IDENTIFIER', 'Lips')
     ('IDENTIFIER', 'Pale')
@@ -310,7 +310,7 @@ def runTestsForLexer():
     ('IDENTIFIER', 'Lungs')
     ('IDENTIFIER', 'Sour')
     ('IDENTIFIER', 'Taste')
-    ('Delimiter', ')')
+    ('DELIMITER', ')')
     Errors encountered:
     Error: Invalid token, missing s in times token.
     Error: Invalid token, missing { in times token.
@@ -319,11 +319,11 @@ def runTestsForLexer():
 
 def runTestsForParser():
     example1 =  [
-        ('Keyword', 'play'),
-        ('Delimiter', '('),
+        ('KEYWORD', 'play'),
+        ('DELIMITER', '('),
         ('NOTE', 'A4w'),
         ('NOTE', 'A4w'),
-        ('Delimiter', ')')
+        ('DELIMITER', ')')
     ]
         
     example2 =  [
@@ -363,15 +363,15 @@ def runTestsForParser():
         ('OPERATOR', '='),
         ('NOTE', 'D4w'),
         ('INTEGER', '5'),
-        ('Keyword', 'times'),
+        ('KEYWORD', 'times'),
         ('Delimitter', '{'),
-        ('Keyword', 'play'),
-        ('Delimiter', '('),
+        ('KEYWORD', 'play'),
+        ('DELIMITER', '('),
         ('IDENTIFIER', 'Birthday'),
         ('IDENTIFIER', 'To'),
         ('IDENTIFIER', 'You'),
-        ('Delimiter', ')'),
-        ('Delimiter', '}')
+        ('DELIMITER', ')'),
+        ('DELIMITER', '}')
     ]
 
     # Parsing fail, extra 5 at the end
@@ -388,18 +388,18 @@ def runTestsForParser():
         ('OPERATOR', '='),
         ('NOTE', 'G4w'),
         ('INTEGER', '5'),  
-        ('Keyword', 'times'),
+        ('KEYWORD', 'times'),
         ('{', '{'),
-        ('Keyword', 'play'),
-        ('Delimiter', '('),
+        ('KEYWORD', 'play'),
+        ('DELIMITER', '('),
         ('IDENTIFIER', 'Song'),
-        ('Delimiter', ')'),
-        ('{', '}'),
+        ('DELIMITER', ')'),
+        ('DELIMETER', '}'),
     ]
 
     
-    # examples = [example1, example2, example3, example4, example5]
-    examples = [example1]
+    examples = [example1, example2, example3, example4, example5]
+    #examples = [example1]
 
     for i, tokens in enumerate(examples):
         print(f"\nExample {i+1}:")
@@ -417,15 +417,16 @@ def runTestsFullprogram():
     Example1 = "play(A4w A4w)"
     Example2 = "Thats= G4w That= G4h Me= B4h Espresso= C4q B4q B4w A4q 5times{play(Thats That Me Espresso A4w B3h G4w)}"
     Example3 = "Happy = A4w Birthday= A4w To = A4w You = D4w 5times {play(Birthday To You)}"
-    tests = [Example1, Example2, Example3]
-    for test in tests:
-        print("Running Lexer...")
+    Example4 = "Happy= A4w Birthday= A4w A9h B4w A4w D4h To = A4w A4h B4w A4w You = D4w 5times {play(Birthday To You)}"
+    tests = [Example1, Example2, Example3, Example4]
+    for i, test in enumerate(tests, start=1):
+        print(f"Running Lexer test {i}...")
         run_parser = LexerDfa(test) 
         run_parser.run()
         tokens = run_parser.get_tokens()
         errors = run_parser.get_errors()
         if errors:
-            print("Errors encountered in lexical analysis phase. Parser not run")
+            print(f"Test {i}: Errors encountered in lexical analysis phase. Parser not run")
         else:
             print("Successfully ran lexer, running parser...")
             parser = Parser(tokens)
