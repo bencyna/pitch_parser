@@ -2,13 +2,8 @@ import sys
 from Lexer import LexerDfa
 from Parser import Parser
 
-if len(sys.argv) != 2:
-    print("Usage: python3 Main.py <int>. The int 0 means run full tests, 1 means add your own input" )
-    sys.exit(1)
-    
-type = sys.argv[1]
-if type == "1":
-    # Run scanner and then run code
+def runFullProgram():
+   # Run scanner and then run code
     data = sys.stdin.readlines()
     data_string = "".join(data)
     runParser = LexerDfa(data_string) 
@@ -24,10 +19,8 @@ if type == "1":
     else:
         parser = Parser(tokens)
         parser.print_ast()
-          
-    
-    
-else:
+
+def runTestsForLexer():
     print("\n Test 1 \n\n")
     # This test shows multiple Identifiers being assigned to notes, and then played 5times in a play token
     # No errors in this first test case
@@ -324,4 +317,136 @@ else:
     Error: Missing } in times token.
     '''
 
+def runTestsForParser():
+    example1 =  [
+        ('Keyword', 'play'),
+        ('Delimiter', '('),
+        ('NOTE', 'A4w'),
+        ('NOTE', 'A4w'),
+        ('Delimiter', ')')
+    ]
+        
+    example2 =  [
+        ('IDENTIFIER', 'Thats'),
+        ('OPERATOR', '='),
+        ('NOTE', 'G4w'),
+        ('IDENTIFIER', 'That'),
+        ('OPERATOR', '='),
+        ('NOTE', 'G4h'),
+        ('IDENTIFIER', 'Me'),
+        ('OPERATOR', '='),
+        ('NOTE', 'B4h'),
+        ('IDENTIFIER', 'Espresso'),
+        ('OPERATOR', '='),
+        ('NOTE', 'C4q'),
+        ('NOTE', 'B4q')
+    ]
+
+    example3 =  [
+        ('IDENTIFIER', 'Happy'),
+        ('OPERATOR', '='),
+        ('NOTE', 'A4w'),
+        ('IDENTIFIER', 'Birthday'),
+        ('OPERATOR', '='),
+        ('NOTE', 'A4w'),
+        ('NOTE', 'A4h'),
+        ('NOTE', 'B4w'),
+        ('NOTE', 'A4w'),
+        ('NOTE', 'D4h'),
+        ('IDENTIFIER', 'To'),
+        ('OPERATOR', '='),
+        ('NOTE', 'A4w'),
+        ('NOTE', 'A4h'),
+        ('NOTE', 'B4w'),
+        ('NOTE', 'A4w'),
+        ('IDENTIFIER', 'You'),
+        ('OPERATOR', '='),
+        ('NOTE', 'D4w'),
+        ('INTEGER', '5'),
+        ('Keyword', 'times'),
+        ('Delimitter', '{'),
+        ('Keyword', 'play'),
+        ('Delimiter', '('),
+        ('IDENTIFIER', 'Birthday'),
+        ('IDENTIFIER', 'To'),
+        ('IDENTIFIER', 'You'),
+        ('Delimiter', ')'),
+        ('Delimiter', '}')
+    ]
+
+    # Parsing fail, extra 5 at the end
+    example4 = [
+        ('IDENTIFIER', 'Thats'),
+        ('OPERATOR', '='),
+        ('NOTE', 'A4h'),
+        ('NOTE', 'G4w'),
+        ('INTEGER', '5'),
+    ]
+    # Parsing fail, no identifier, but there is an operator = 
+    example5 = [
+        # ('IDENTIFIER', 'Thats'),
+        ('OPERATOR', '='),
+        ('NOTE', 'G4w'),
+        ('INTEGER', '5'),  
+        ('Keyword', 'times'),
+        ('{', '{'),
+        ('Keyword', 'play'),
+        ('Delimiter', '('),
+        ('IDENTIFIER', 'Song'),
+        ('Delimiter', ')'),
+        ('{', '}'),
+    ]
+
     
+    # examples = [example1, example2, example3, example4, example5]
+    examples = [example1]
+
+    for i, tokens in enumerate(examples):
+        print(f"\nExample {i+1}:")
+        parser = Parser(tokens)
+        if parser.head:
+            parser.print_ast()
+            if any(node.failed for node in parser.head.children):
+                print("\nParsing completed with errors (see X -> markers above)\n")
+            else:
+                print("Parsing succeeded!")
+        else:
+            print("Parsing failed.")
+        
+def runTestsFullprogram():
+    Example1 = "play(A4w A4w)"
+    Example2 = "Thats= G4w That= G4h Me= B4h Espresso= C4q B4q B4w A4q 5times{play(Thats That Me Espresso A4w B3h G4w)}"
+    Example3 = "Happy = A4w Birthday= A4w To = A4w You = D4w 5times {play(Birthday To You)}"
+    tests = [Example1, Example2, Example3]
+    for test in tests:
+        print("Running Lexer...")
+        run_parser = LexerDfa(test) 
+        run_parser.run()
+        tokens = run_parser.get_tokens()
+        errors = run_parser.get_errors()
+        if errors:
+            print("Errors encountered in lexical analysis phase. Parser not run")
+        else:
+            print("Successfully ran lexer, running parser...")
+            parser = Parser(tokens)
+            parser.print_ast()
+  
+if len(sys.argv) != 2:
+    print("Usage: python3 Main.py <int>\n 0: run tests for lexer. \n 1: run tests for Parser.\n 2 : input your own code in our language and we will run the paerser then lexer on your code.\n 3: Test cases for parser -> scanner" )
+    sys.exit(1)
+    
+type = sys.argv[1]
+if type == "2":
+    runFullProgram()
+          
+    
+elif type == "0":
+    runTestsForLexer()
+
+    
+elif type == "1":
+    runTestsForParser()
+    
+elif type == "3":
+    # Test cases for parser -> scanner
+    runTestsFullprogram()
