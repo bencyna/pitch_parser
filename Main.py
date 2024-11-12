@@ -15,7 +15,7 @@ def runFullProgram():
         print(token)
 
     if errors:
-        "Errors encountered in lexical analysis phase. Parser not run"
+        print("Errors encountered in lexical analysis phase. Parser not run")
     else:
         parser = Parser(tokens)
         parser.print_ast()
@@ -437,16 +437,20 @@ if len(sys.argv) != 2:
     
 type = sys.argv[1]
 if type == "2":
+    print("Please enter your code below. Press Ctrl +D to finish.")
     runFullProgram()
           
     
 elif type == "0":
+    print("Running tests for lexer...")
     runTestsForLexer()
 
     
 elif type == "1":
+    print("Running tests for parser...")
     runTestsForParser()
     
 elif type == "3":
+    print("Running tests for parser then scanner...")
     # Test cases for parser -> scanner
     runTestsFullprogram()
