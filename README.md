@@ -61,8 +61,9 @@ To run the scanner to provide your own inputs:
   ('DELIMITER', ')')
 
 #### Expected AST ?
-─ S
-    └─── PLAY
+```plaintext
+─ S 
+   └─── PLAY
         ├─── play  (KEYWORD)
         └─── EXPRESSION2
             ├─── A4w  (NOTE)
