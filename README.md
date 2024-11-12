@@ -8,10 +8,26 @@ ASSIGNMENT → =NOTE | ε <br>
 TIMES → NUMBER times {PLAY} <br>
 NOTE → <capital_letter A-G> <num> LENGTH <br>
 LENGTH → w | h | q | e | s <br>
-VAR →  <capital_letter A-Z> LET POSTVAR <br>
+VAR →  <capital_letter A-Z> LET ASSIGNMENT <br>
 LET → <lowercase_letter a-z> | <lowercase_letter a-z> LET <br>
 PLAY → play (Expression) S <br>
-EXPRESSiON → NOTE | VAR <br>
+EXPRESSION → NOTE | VAR <br>
+EXPRESSION2 → NOTE | VAR <br>
+
+
+### Terminal definition:
+- IDENTIFIER: Represents variable names or identifiers.
+- NOTE: Represents musical notes.
+- NUM: Represents numeric values (number or times to play a phrase).
+- play: Keyword for playing notes.
+- times: Keyword for repeating actions.
+- =: Assignment operator.
+- {: Opening brace (delimiter, used for times{})
+- }: Closing brace. 
+- (: Opening parenthesis. (delimiter, used for play())
+- ): Closing parenthesis.
+- $: End of input marker.
+
 
 ## Run Instructions 
 Make sure you have python3 installed.   <br>
