@@ -171,3 +171,4 @@ class Parser:
             child = node.children[i]
             is_last_child = (i == len(node.children) - 1)
             self.print_ast(child, level + 1, new_prefix, is_last_child) 
+
