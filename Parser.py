@@ -64,7 +64,8 @@ class Parser:
                        error_msg=f"Expected {production_rule}, found {tokenType}({tokenValue})")
     
     def parseTreeNonTerminal(self, production_rule, token_pos):
-            best_partial_AST = None
+            best_partial_AST = None # stores best partial 
+
             # Try each production rule for the non-terminal
             for production in self.CFG[production_rule]:
                 self.position = token_pos  # Reset position for each attempt
@@ -228,7 +229,7 @@ if __name__ == "__main__":
         ('Delimiter', '}')
     ]
 
-    #Parsing fail, extra 5 at the end
+    # Parsing fail, extra 5 at the end
     example4 = [
         ('IDENTIFIER', 'Thats'),
         ('OPERATOR', '='),
@@ -251,11 +252,18 @@ if __name__ == "__main__":
         ('{', '}'),
     ]
 
-    parser = Parser(example4)
+    
+examples = [example1, example2, example3, example4, example5]
+
+for i, tokens in enumerate(examples):
+    print(f"\nExample {i+1}:")
+    parser = Parser(tokens)
     if parser.head:
         parser.print_ast()
         if any(node.failed for node in parser.head.children):
-            print("\nParsing completed with errors (see X -> markers above)")
+            print("\nParsing completed with errors (see X -> markers above)\n")
         else:
             print("Parsing succeeded!")
-
+    else:
+        print("Parsing failed.")
+        
