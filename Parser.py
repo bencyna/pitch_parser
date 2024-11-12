@@ -138,9 +138,14 @@ class Parser:
                 print(cur_level)
                 cur_level = []
                 
-    
+    def removeDelimittersAndStart(self):
+        # from TreeNode, remove the delimiters and start symbol
+        def dfs(node):
+            i
+        
+      
     def print_ParseTree(self, node=None, level=0, prefix="", is_last=True):
-    
+        self.removeDelimittersAndStart()
         # Prints the ParseTree
         if node is None:
             # starts at the root(head) of the tree

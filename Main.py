@@ -18,7 +18,7 @@ def runFullProgram():
         print("Errors encountered in lexical analysis phase. Parser not run")
     else:
         parser = Parser(tokens)
-        parser.print_ast()
+        parser.print_ParseTree()
 
 def runTestsForLexer():
     print("\n Test 1 \n\n")
@@ -405,7 +405,7 @@ def runTestsForParser():
         print(f"\nExample {i+1}:")
         parser = Parser(tokens)
         if parser.head:
-            parser.print_ast()
+            parser.print_ParseTree()
             if any(node.failed for node in parser.head.children):
                 print("\nParsing completed with errors (see X -> markers above)\n")
             else:
@@ -429,7 +429,7 @@ def runTestsFullprogram():
         else:
             print("Successfully ran lexer, running parser...")
             parser = Parser(tokens)
-            parser.print_ast()
+            parser.print_ParseTree()
   
 if len(sys.argv) != 2:
     print("Usage: python3 Main.py <int>\n 0: run tests for lexer. \n 1: run tests for Parser.\n 2 : input your own code in our language and we will run the paerser then lexer on your code.\n 3: Test cases for parser -> scanner" )
