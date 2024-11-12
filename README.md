@@ -16,7 +16,7 @@ EXPRESSION2 → NOTE | VAR <br>
 
 
 ### Terminal definition:
-- IDENTIFIER: Represents variable names or identifiers.
+- VAR/IDENTIFIER: Represents variable names or identifiers.
 - NOTE: Represents musical notes.
 - NUM: Represents numeric values (number or times to play a phrase).
 - play: Keyword for playing notes.
@@ -39,10 +39,10 @@ Now make sure to set the permission for the .sh files. <br>
 
 The provided test cases (see below) are also built into our code. You can run these test cases using the following commands: <br> 
 
-To run the lexer, and then have the lexer tokens run in the parser run:
+To run the examples in the Lexer, and then have the Lexer tokens run in the Parser, run:
 ``` ./run_full_tests.sh ``` 
 
-To run the lexer tests:
+To run the Lexer tests:
 ``` ./run_lexer_tests.sh ``` 
 
 To run the Parser tests:
@@ -54,8 +54,22 @@ To run the scanner to provide your own inputs:
 ## Sample inputs 
 
 ### Input 1
+  ('KEYWORD', 'play'),
+  ('DELIMITER', '('),
+  ('NOTE', 'A4w'),
+  ('NOTE', 'A4w'),
+  ('DELIMITER', ')')
 
 #### Expected AST
+─ S
+    └─── PLAY
+        ├─── play  (KEYWORD)
+        └─── EXPRESSION2
+            ├─── A4w  (NOTE)
+            └─── EXPRESSION2
+                ├─── A4w  (NOTE)
+                └─── EXPRESSION2
+                    └─── epsilon
 
 ### Input 2
 
