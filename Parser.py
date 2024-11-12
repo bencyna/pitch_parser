@@ -1,11 +1,12 @@
 from collections import deque
 
 class TreeNode:
-    def __init__(self, value, children = None, failed=False, error_msg=None):
+    def __init__(self, value, children = None, failed=False, error_msg=None, token_type=None):
         self.value = value
         self.children = children if children is not None else []
         self.failed = failed  # node failed parsing or not, set to false to begin w/
         self.error_msg = error_msg  # err msg if parse failed 
+        self.token_type = token_type  # token type for terminals
 
 class Parser:
     # reads in the tokens 
@@ -37,7 +38,7 @@ class Parser:
         self.head = self.buildParseTree('S', 0)
     
     def parseTreeTerminal(self, production_rule, token_pos):
-        # Does the token value or type match the rule?
+          # Does the token value or type match the rule?
           tokenType, tokenValue = self.tokens[token_pos] if token_pos < len(self.tokens) else ('$', '$')
           
           # Handle $ case
@@ -56,7 +57,9 @@ class Parser:
           if tokenType == self.terminals[production_rule] or tokenValue == self.terminals[production_rule]:
               print("Terminal rule success: ", production_rule, " at token pos: ", token_pos)
               # If at the last token, confirm successful parse
-              terminal_node = TreeNode(self.terminals[production_rule])
+              # terminal_node = TreeNode(self.terminals[production_rule])
+              terminal_node = TreeNode(tokenValue, token_type=tokenType)
+
               self.position += 1
               return terminal_node
           else: # doesn't match, make failed node
@@ -136,13 +139,12 @@ class Parser:
                 cur_level = []
                 
     
-    def print_ast(self, node=None, level=0, prefix="", is_last=True):
+    def print_ParseTree(self, node=None, level=0, prefix="", is_last=True):
     
-        # Prints the AST
+        # Prints the ParseTree
         if node is None:
             # starts at the root(head) of the tree
             node = self.head
-            print("\nAbstract Syntax Tree:")
         
         # the branch type (last or not)
         # print('***')
@@ -152,11 +154,14 @@ class Parser:
         else:
             branch = "├──"
         
-        # Add error
+        # Add error and token type if present
         if node.failed:
             status = "  X -> " + node.error_msg
+        elif node.token_type:
+            status = f"  ({node.token_type})"
         else:
             status = ""
+
         # Prints the node w/branch
         print(f"{prefix}{branch if level > 0 else ''}─ {node.value}{status}")
             
@@ -170,5 +175,5 @@ class Parser:
         for i in range(len(node.children)):
             child = node.children[i]
             is_last_child = (i == len(node.children) - 1)
-            self.print_ast(child, level + 1, new_prefix, is_last_child) 
+            self.print_ParseTree(child, level + 1, new_prefix, is_last_child) 
 
