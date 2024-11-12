@@ -82,6 +82,7 @@ class Parser:
                     child_node = self.buildParseTree(sub_rule, self.position)
                     
                     if child_node and not child_node.failed:
+                        # print("child "+ child_node.value)
                         children.append(child_node)
                     else:
                         success = False
@@ -174,7 +175,7 @@ class Parser:
 # Examples:
 if __name__ == "__main__":
     example1 =  [
-    ('Keyword', 'play'),
+        ('Keyword', 'play'),
         ('Delimiter', '('),
         ('NOTE', 'A4w'),
         ('NOTE', 'A4w'),
@@ -253,7 +254,8 @@ if __name__ == "__main__":
     ]
 
     
-examples = [example1, example2, example3, example4, example5]
+# examples = [example1, example2, example3, example4, example5]
+examples = [example1]
 
 for i, tokens in enumerate(examples):
     print(f"\nExample {i+1}:")
