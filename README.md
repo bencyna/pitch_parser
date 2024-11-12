@@ -8,11 +8,11 @@ ASSIGNMENT → =NOTE | ε <br>
 TIMES → NUMBER times {PLAY} <br>
 NOTE → <capital_letter A-G> <num> LENGTH <br>
 LENGTH → w | h | q | e | s <br>
-VAR →  <capital_letter A-Z> LET ASSIGNMENT <br>
+VAR →  <capital_letter A-Z> LET <br>
 LET → <lowercase_letter a-z> | <lowercase_letter a-z> LET <br>
-PLAY → play (Expression) S <br>
-EXPRESSION → NOTE | VAR <br>
-EXPRESSION2 → NOTE | VAR <br>
+PLAY → play (EXPRESSION2) S <br>
+EXPRESSION → NOTE |  ASSIGNMENT <br>
+EXPRESSION2 → NOTE EXPRESSION2 | VAR EXPRESSION2 | ε <br>
 
 
 ### Terminal definition:
@@ -32,7 +32,7 @@ EXPRESSION2 → NOTE | VAR <br>
 ## Run Instructions 
 Make sure you have python3 installed.   <br>
 You can install it from here https://www.python.org/downloads/  <br>
-Now make sure to set the permission for the .sh files. <br>
+Now make sure to set the permission for the .sh files by running the following command. <br>
 
 ``` chmod +x run_full_compiler.sh run_full_tests.sh run_lexer_tests.sh run_parser_tests.sh```
 <br>
