@@ -138,9 +138,14 @@ class Parser:
                 print(cur_level)
                 cur_level = []
                 
-    
+    def removeDelimittersAndStart(self):
+        # from TreeNode, remove the delimiters and start symbol
+        def dfs(node):
+            i
+        
+      
     def print_ParseTree(self, node=None, level=0, prefix="", is_last=True):
-    
+        self.removeDelimittersAndStart()
         # Prints the ParseTree
         if node is None:
             # starts at the root(head) of the tree
@@ -177,96 +182,3 @@ class Parser:
             is_last_child = (i == len(node.children) - 1)
             self.print_ParseTree(child, level + 1, new_prefix, is_last_child) 
 
-# Examples:
-if __name__ == "__main__":
-    example1 =  [
-        ('Keyword', 'play'),
-        ('Delimiter', '('),
-        ('NOTE', 'A4w'),
-        ('NOTE', 'A4w'),
-        ('Delimiter', ')')
-    ]
-        
-    example2 =  [
-        ('IDENTIFIER', 'Thats'),
-        ('OPERATOR', '='),
-        ('NOTE', 'G4w'),
-        ('IDENTIFIER', 'That'),
-        ('OPERATOR', '='),
-        ('NOTE', 'G4h'),
-        ('IDENTIFIER', 'Me'),
-        ('OPERATOR', '='),
-        ('NOTE', 'B4h'),
-        ('IDENTIFIER', 'Espresso'),
-        ('OPERATOR', '='),
-        ('NOTE', 'C4q'),
-        ('NOTE', 'B4q')
-    ]
-
-    example3 =  [
-        ('IDENTIFIER', 'Happy'),
-        ('OPERATOR', '='),
-        ('NOTE', 'A4w'),
-        ('IDENTIFIER', 'Birthday'),
-        ('OPERATOR', '='),
-        ('NOTE', 'A4w'),
-        ('NOTE', 'A4h'),
-        ('NOTE', 'B4w'),
-        ('NOTE', 'A4w'),
-        ('NOTE', 'D4h'),
-        ('IDENTIFIER', 'To'),
-        ('OPERATOR', '='),
-        ('NOTE', 'A4w'),
-        ('NOTE', 'A4h'),
-        ('NOTE', 'B4w'),
-        ('NOTE', 'A4w'),
-        ('IDENTIFIER', 'You'),
-        ('OPERATOR', '='),
-        ('NOTE', 'D4w'),
-        ('INTEGER', '5'),
-        ('Keyword', 'times'),
-        ('Delimitter', '{'),
-        ('Keyword', 'play'),
-        ('Delimiter', '('),
-        ('IDENTIFIER', 'Birthday'),
-        ('IDENTIFIER', 'To'),
-        ('IDENTIFIER', 'You'),
-        ('Delimiter', ')'),
-        ('Delimiter', '}')
-    ]
-
-    # Parsing fail, extra 5 at the end
-    example4 = [
-        ('IDENTIFIER', 'Thats'),
-        ('OPERATOR', '='),
-        ('NOTE', 'A4h'),
-        ('NOTE', 'G4w'),
-        ('INTEGER', '5'),
-    ]
-    # Parsing fail, no identifier, but there is an operator = 
-    example5 = [
-        # ('IDENTIFIER', 'Thats'),
-        ('OPERATOR', '='),
-        ('NOTE', 'G4w'),
-        ('INTEGER', '5'),  
-        ('Keyword', 'times'),
-        ('{', '{'),
-        ('Keyword', 'play'),
-        ('Delimiter', '('),
-        ('IDENTIFIER', 'Song'),
-        ('Delimiter', ')'),
-        ('{', '}'),
-    ]
-
-    
-# examples = [example1, example2, example3, example4, example5]
-examples = [example1]
-
-for i, tokens in enumerate(examples):
-    # print(f"\nExample {i+1}:")
-    parser = Parser(tokens)
-    if parser.head:
-        print("Original Parse Tree:")
-        parser.print_ParseTree()
-        # print("\nConverted AST:")
-        # parser.print_ast_clean()
