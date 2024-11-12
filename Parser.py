@@ -231,13 +231,14 @@ if __name__ == "__main__":
     #Parsing fail, extra 5 at the end
     example4 = [
         ('IDENTIFIER', 'Thats'),
+        ('OPERATOR', '='),
+        ('NOTE', 'A4h'),
         ('NOTE', 'G4w'),
         ('INTEGER', '5'),
-        ('Keyword', 'times')
     ]
-    # Parsing fail, no brace at the end
+    # Parsing fail, no identifier, but there is an operator = 
     example5 = [
-        ('IDENTIFIER', 'Thats'),
+        # ('IDENTIFIER', 'Thats'),
         ('OPERATOR', '='),
         ('NOTE', 'G4w'),
         ('INTEGER', '5'),  
@@ -245,16 +246,16 @@ if __name__ == "__main__":
         ('{', '{'),
         ('Keyword', 'play'),
         ('Delimiter', '('),
-        # ('IDENTIFIER', 'Song'),
-        # ('Delimiter', ')'),
+        ('IDENTIFIER', 'Song'),
+        ('Delimiter', ')'),
         ('{', '}'),
     ]
 
-    parser = Parser(example5)
+    parser = Parser(example4)
     if parser.head:
         parser.print_ast()
         if any(node.failed for node in parser.head.children):
-            print("\nParsing completed with errors (see X markers above)")
+            print("\nParsing completed with errors (see X -> markers above)")
         else:
             print("Parsing succeeded!")
 
