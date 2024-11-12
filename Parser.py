@@ -123,86 +123,110 @@ class Parser:
                 cur_level = []
                 
     
+    def print_ast(self, node=None, level=0, prefix="", is_last=True):
+    
+        # Prints the AST
+        if node is None:
+            # starts at the root(head) of the tree
+            node = self.head
+            print("\nAbstract Syntax Tree:")
+        
+        # the branch type (last or not)
+        # print('***')
 
-              
+        if is_last:
+            branch = "└──"
+        else:
+            branch = "├──"
+        
+        # Prints the node w/branch
+        print(f"{prefix}{branch if level > 0 else ''}─ {node.value}")
             
-            
-                
-                
+        # Updates prefix (next level)
+        if is_last:
+            new_prefix = prefix + "    "
+        else:
+            new_prefix = prefix + "│   "
+        
+        # recursively print children, changing level + 1
+        for i in range(len(node.children)):
+            child = node.children[i]
+            is_last_child = (i == len(node.children) - 1)
+            self.print_ast(child, level + 1, new_prefix, is_last_child) 
 
-
-# Sample usage
-example1 =  [
-  ('Keyword', 'play'),
-    ('Delimiter', '('),
-    ('NOTE', 'A4w'),
-    ('NOTE', 'A4w'),
-    ('Delimiter', ')')
+# Examples:
+if __name__ == "__main__":
+    example1 =  [
+    ('Keyword', 'play'),
+        ('Delimiter', '('),
+        ('NOTE', 'A4w'),
+        ('NOTE', 'A4w'),
+        ('Delimiter', ')')
+    ]
+        
+    example2 =  [
+        ('IDENTIFIER', 'Thats'),
+        ('OPERATOR', '='),
+        ('NOTE', 'G4w'),
+        ('IDENTIFIER', 'That'),
+        ('OPERATOR', '='),
+        ('NOTE', 'G4h'),
+        ('IDENTIFIER', 'Me'),
+        ('OPERATOR', '='),
+        ('NOTE', 'B4h'),
+        ('IDENTIFIER', 'Espresso'),
+        ('OPERATOR', '='),
+        ('NOTE', 'C4q'),
+        ('NOTE', 'B4q')
     ]
 
-example2 =  [
+    example3 =  [
+        ('IDENTIFIER', 'Happy'),
+        ('OPERATOR', '='),
+        ('NOTE', 'A4w'),
+        ('IDENTIFIER', 'Birthday'),
+        ('OPERATOR', '='),
+        ('NOTE', 'A4w'),
+        ('NOTE', 'A4h'),
+        ('NOTE', 'B4w'),
+        ('NOTE', 'A4w'),
+        ('NOTE', 'D4h'),
+        ('IDENTIFIER', 'To'),
+        ('OPERATOR', '='),
+        ('NOTE', 'A4w'),
+        ('NOTE', 'A4h'),
+        ('NOTE', 'B4w'),
+        ('NOTE', 'A4w'),
+        ('IDENTIFIER', 'You'),
+        ('OPERATOR', '='),
+        ('NOTE', 'D4w'),
+        ('INTEGER', '5'),
+        ('Keyword', 'times'),
+        ('Delimitter', '{'),
+        ('Keyword', 'play'),
+        ('Delimiter', '('),
+        ('IDENTIFIER', 'Birthday'),
+        ('IDENTIFIER', 'To'),
+        ('IDENTIFIER', 'You'),
+        ('Delimiter', ')'),
+        ('Delimiter', '}')
+    ]
+
+    example4 = [
+    ('IDENTIFIER', 'Thats'),
+    ('NOTE', 'G4w')
+    ]
+
+    example5 = [
     ('IDENTIFIER', 'Thats'),
     ('OPERATOR', '='),
     ('NOTE', 'G4w'),
-    ('IDENTIFIER', 'That'),
-    ('OPERATOR', '='),
-    ('NOTE', 'G4h'),
-    ('IDENTIFIER', 'Me'),
-    ('OPERATOR', '='),
-    ('NOTE', 'B4h'),
-    ('IDENTIFIER', 'Espresso'),
-    ('OPERATOR', '='),
-    ('NOTE', 'C4q'),
-    ('NOTE', 'B4q')
+    ('NUM', '3')
     ]
 
-example3 =  [
-    ('IDENTIFIER', 'Happy'),
-    ('OPERATOR', '='),
-    ('NOTE', 'A4w'),
-    ('IDENTIFIER', 'Birthday'),
-    ('OPERATOR', '='),
-    ('NOTE', 'A4w'),
-    ('NOTE', 'A4h'),
-    ('NOTE', 'B4w'),
-    ('NOTE', 'A4w'),
-    ('NOTE', 'D4h'),
-    ('IDENTIFIER', 'To'),
-    ('OPERATOR', '='),
-    ('NOTE', 'A4w'),
-    ('NOTE', 'A4h'),
-    ('NOTE', 'B4w'),
-    ('NOTE', 'A4w'),
-    ('IDENTIFIER', 'You'),
-    ('OPERATOR', '='),
-    ('NOTE', 'D4w'),
-    ('INTEGER', '5'),
-    ('Keyword', 'times'),
-    ('Delimitter', '{'),
-    ('Keyword', 'play'),
-    ('Delimiter', '('),
-    ('IDENTIFIER', 'Birthday'),
-    ('IDENTIFIER', 'To'),
-    ('IDENTIFIER', 'You'),
-    ('Delimiter', ')'),
-    ('Delimiter', '}')
-]
-
-example4 = [
-  ('IDENTIFIER', 'Thats'),
-  ('NOTE', 'G4w')
-]
-
-example5 = [
-  ('IDENTIFIER', 'Thats'),
-  ('OPERATOR', '='),
-  ('NOTE', 'G4w'),
-  ('NUM', '3')
-]
-
-parser = Parser(example4)
-if parser.head:
-    print("Parsing succeeded!")
-    parser.levelOrderTraversal()
-else:
-    print("Parsing failed.")
+    parser = Parser(example3)
+    if parser.head:
+        print("Parsing succeeded!")
+        parser.print_ast()
+    else:
+        print("Parsing failed.")
