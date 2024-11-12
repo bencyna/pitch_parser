@@ -60,7 +60,7 @@ To run the scanner to provide your own inputs:
   ('NOTE', 'A4w'),
   ('DELIMITER', ')')
 
-#### Expected AST
+#### Expected AST ?
 ─ S
     └─── PLAY
         ├─── play  (KEYWORD)
