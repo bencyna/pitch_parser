@@ -54,11 +54,13 @@ To run the scanner to provide your own inputs:
 ## Sample inputs 
 
 ### Input 1
+```markdown
   ('KEYWORD', 'play'),
   ('DELIMITER', '('),
   ('NOTE', 'A4w'),
   ('NOTE', 'A4w'),
   ('DELIMITER', ')')
+```
 
 #### Expected AST ?
 ```plaintext
@@ -71,6 +73,7 @@ To run the scanner to provide your own inputs:
                 ├─── A4w  (NOTE)
                 └─── EXPRESSION2
                     └─── epsilon
+```
 
 ### Input 2
 
