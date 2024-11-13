@@ -1,5 +1,7 @@
 # Pitch Parser
 
+See Lexer information here: <br>
+https://github.com/gruiiiw/PLT-Music-Compiler
 
 ## CFG
 
@@ -14,8 +16,7 @@ PLAY → play (EXPRESSION2) S <br>
 EXPRESSION → NOTE |  ASSIGNMENT <br>
 EXPRESSION2 → NOTE EXPRESSION2 | VAR EXPRESSION2 | ε <br>
 
-
-### Terminal definition:
+#### Terminal definition: ?
 - VAR/IDENTIFIER: Represents variable names or identifiers.
 - NOTE: Represents musical notes.
 - NUM: Represents numeric values (number or times to play a phrase).
@@ -27,6 +28,8 @@ EXPRESSION2 → NOTE EXPRESSION2 | VAR EXPRESSION2 | ε <br>
 - (: Opening parenthesis. (delimiter, used for play())
 - ): Closing parenthesis.
 - $: End of input marker.
+
+#### Non Terminal Definition ?
 
 
 ## Run Instructions 
@@ -54,15 +57,18 @@ To run the scanner to provide your own inputs:
 ## Sample inputs 
 
 ### Input 1
+```markdown
   ('KEYWORD', 'play'),
   ('DELIMITER', '('),
   ('NOTE', 'A4w'),
   ('NOTE', 'A4w'),
   ('DELIMITER', ')')
+```
 
 #### Expected AST
-─ S
-    └─── PLAY
+```plaintext
+─ S 
+   └─── PLAY
         ├─── play  (KEYWORD)
         └─── EXPRESSION2
             ├─── A4w  (NOTE)
@@ -70,23 +76,185 @@ To run the scanner to provide your own inputs:
                 ├─── A4w  (NOTE)
                 └─── EXPRESSION2
                     └─── epsilon
+```
 
 ### Input 2
+```markdown
+    ('IDENTIFIER', 'Thats'),
+    ('OPERATOR', '='),
+    ('NOTE', 'G4w'),
+    ('IDENTIFIER', 'That'),
+    ('OPERATOR', '='),
+    ('NOTE', 'G4h'),
+    ('IDENTIFIER', 'Me'),
+    ('OPERATOR', '='),
+    ('NOTE', 'B4h'),
+    ('IDENTIFIER', 'Espresso'),
+    ('OPERATOR', '='),
+    ('NOTE', 'C4q'),
+    ('NOTE', 'B4q')
+```
+
+
 
 #### Expected AST
+```plaintext
+─ S
+    ├─── EXPRESSION
+    │   ├─── Thats  (IDENTIFIER)
+    │   └─── ASSIGNMENT
+    │       ├─── =  (OPERATOR)
+    │       └─── G4w  (NOTE)
+    ├─── EXPRESSION
+    │   ├─── That  (IDENTIFIER)
+    │   └─── ASSIGNMENT
+    │       ├─── =  (OPERATOR)
+    │       └─── G4h  (NOTE)
+    ├─── EXPRESSION
+    │   ├─── Me  (IDENTIFIER)
+    │   └─── ASSIGNMENT
+    │       ├─── =  (OPERATOR)
+    │       └─── B4h  (NOTE)
+    ├─── EXPRESSION
+    │   ├─── Espresso  (IDENTIFIER)
+    │   └─── ASSIGNMENT
+    │       ├─── =  (OPERATOR)
+    │       └─── C4q  (NOTE)
+    └─── EXPRESSION
+        └─── B4q  (NOTE)
+```
+
 
 ### Input 3
+```markdown
+    ('IDENTIFIER', 'Happy'),
+    ('OPERATOR', '='),
+    ('NOTE', 'A4w'),
+    ('IDENTIFIER', 'Birthday'),
+    ('OPERATOR', '='),
+    ('NOTE', 'A4w'),
+    ('NOTE', 'A4h'),
+    ('NOTE', 'B4w'),
+    ('NOTE', 'A4w'),
+    ('NOTE', 'D4h'),
+    ('IDENTIFIER', 'To'),
+    ('OPERATOR', '='),
+    ('NOTE', 'A4w'),
+    ('NOTE', 'A4h'),
+    ('NOTE', 'B4w'),
+    ('NOTE', 'A4w'),
+    ('IDENTIFIER', 'You'),
+    ('OPERATOR', '='),
+    ('NOTE', 'D4w'),
+    ('INTEGER', '5'),
+    ('KEYWORD', 'times'),
+    ('Delimitter', '{'),
+    ('KEYWORD', 'play'),
+    ('DELIMITER', '('),
+    ('IDENTIFIER', 'Birthday'),
+    ('IDENTIFIER', 'To'),
+    ('IDENTIFIER', 'You'),
+    ('DELIMITER', ')'),
+    ('DELIMITER', '}')
+```
 
 #### Expected AST
+```plaintext
+─ S
+    ├─── EXPRESSION
+    │   ├─── Happy  (IDENTIFIER)
+    │   └─── ASSIGNMENT
+    │       ├─── =  (OPERATOR)
+    │       └─── A4w  (NOTE)
+    ├─── EXPRESSION
+    │   ├─── Birthday  (IDENTIFIER)
+    │   └─── ASSIGNMENT
+    │       ├─── =  (OPERATOR)
+    │       └─── A4w  (NOTE)
+    ├─── EXPRESSION
+    │   └─── A4h  (NOTE)
+    ├─── EXPRESSION
+    │   └─── B4w  (NOTE)
+    ├─── EXPRESSION
+    │   └─── A4w  (NOTE)
+    ├─── EXPRESSION
+    │   └─── D4h  (NOTE)
+    ├─── EXPRESSION
+    │   ├─── To  (IDENTIFIER)
+    │   └─── ASSIGNMENT
+    │       ├─── =  (OPERATOR)
+    │       └─── A4w  (NOTE)
+    ├─── EXPRESSION
+    │   └─── A4h  (NOTE)
+    ├─── EXPRESSION
+    │   └─── B4w  (NOTE)
+    ├─── EXPRESSION
+    │   └─── A4w  (NOTE)
+    ├─── EXPRESSION
+    │   ├─── You  (IDENTIFIER)
+    │   └─── ASSIGNMENT
+    │       ├─── =  (OPERATOR)
+    │       └─── D4w  (NOTE)
+    └─── TIMES
+        ├─── 5  (INTEGER)
+        ├─── times  (KEYWORD)
+        └─── PLAY
+            ├─── play  (KEYWORD)
+            └─── EXPRESSION2
+                ├─── Birthday  (IDENTIFIER)
+                └─── EXPRESSION2
+                    ├─── To  (IDENTIFIER)
+                    └─── EXPRESSION2
+                        ├─── You  (IDENTIFIER)
+                        └─── EXPRESSION2
+                            └─── epsilon
+```
 
 ### Input 4
+```markdown
+  ('IDENTIFIER', 'Thats'),
+  ('OPERATOR', '='),
+  ('NOTE', 'A4h'),
+  ('NOTE', 'G4w'),
+  ('INTEGER', '5'),
 
-#### Expected AST with errors
+```
+
+#### Expected AST with errors (Parsing fail, extra 5 at the end)
+```plaintext
+─ S  X -> Partial match for S
+    ├─── EXPRESSION
+    │   ├─── Thats  (IDENTIFIER)
+    │   └─── ASSIGNMENT
+    │       ├─── =  (OPERATOR)
+    │       └─── A4h  (NOTE)
+    ├─── EXPRESSION
+    │   └─── G4w  (NOTE)
+    └─── EXPRESSION  X -> Partial match for EXPRESSION
+        └─── NOTE  X -> Expected NOTE, found INTEGER(5)
+```
+
 
 ### Input 5
+```markdown
+    ('OPERATOR', '='),
+    ('NOTE', 'G4w'),
+    ('INTEGER', '5'),  
+    ('KEYWORD', 'times'),
+    ('{', '{'),
+    ('KEYWORD', 'play'),
+    ('DELIMITER', '('),
+    ('IDENTIFIER', 'Song'),
+    ('DELIMITER', ')'),
+    ('DELIMETER', '}'),
+```
 
-#### Expected AST with errors 
-
+#### Expected AST with errors, no identifier, but there is an operator = . 
+```plaintext
+─ S  X -> Partial match for S
+    └─── EXPRESSION  X -> Partial match for EXPRESSION
+        └─── NOTE  X -> Expected NOTE, found OPERATOR(=)
+```
 
 ## Teammates 
 Benjamin Cyna bc3096 <br>
