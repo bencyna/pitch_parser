@@ -264,6 +264,7 @@ class LexerDfa:
         
   def get_tokens(self):
     return self.tokens
+  
   def get_errors(self):
     return self.errors
 

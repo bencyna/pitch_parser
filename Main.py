@@ -13,7 +13,6 @@ def runFullProgram():
 
     for token in tokens:
         print(token)
-
     if errors:
         print("Errors encountered in lexical analysis phase. Parser not run")
     else:
