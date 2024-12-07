@@ -13,7 +13,8 @@ class CodeGeneration:
         # first child is the number of times to play
         loops = int(node.children[0].value)
         for i in range(loops):
-            self.code.append(self.parsePlay(node.children[3]))    
+            if not self.parsePlay(node.children[2]):
+                return False    
       
     
     def parsePlay(self, node):
@@ -65,7 +66,8 @@ class CodeGeneration:
                 self.parseAST(child)
                 
         elif node.value == "TIMES":
-            self.parseTimes(node)
+            if not self.parseTimes(node):
+                return False
             
         elif node.value == "PLAY":
             if not self.parsePlay(node):
@@ -81,7 +83,8 @@ class CodeGeneration:
         
         
     def printCode(self):
-        self.parseAST(self.ast)
+        if not self.parseAST(self.ast):
+            return False
         print("Printing code...")
         
         for line in self.code:
