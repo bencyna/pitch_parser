@@ -37,9 +37,6 @@ class CodeGeneration:
         if node.children[0].value == "epsilon":
             return []
         
-        print(node.value, len(node.children))
-        for child in node.children:
-            print(child.value)
         return_vals.append(node.children[0].value)
         return_vals.extend(self.parseExpression2(node.children[1]))
         return return_vals
