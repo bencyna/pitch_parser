@@ -49,11 +49,10 @@ class CodeGeneration:
             # its a variable name
             if variable not in self.variables:
                 return False
-            self.code.append(self.convertToBits(self.variables[variable]))
+            self.code.append(self.variables[variable])
         else:
             # its a sound
             self.code.append(self.convertToBits(variable))
-            
         return True
 
     def convertToBits(self, note):
@@ -68,7 +67,6 @@ class CodeGeneration:
         duration = duration_map[note[2]]
 
         return pitch + octave + duration
-
     
     def parseAST(self, node):
         if node.value == 'S':
