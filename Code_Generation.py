@@ -1,4 +1,5 @@
-# Develop an algorithm that takes in AST and outouts our bit encodings for the sounds to be made for some other compiler to generate sound
+# Develop an algorithm that takes in AST and outouts our bit encodings 
+# for the sounds to be made for some other compiler to generate sound
 class CodeGeneration:
     def __init__(self, ast):
         self.ast = ast
@@ -48,12 +49,25 @@ class CodeGeneration:
             # its a variable name
             if variable not in self.variables:
                 return False
-            self.code.append(self.variables[variable])
+            self.code.append(self.convertToBits(self.variables[variable]))
         else:
             # its a sound
-            self.code.append(variable)
+            self.code.append(self.convertToBits(variable))
             
         return True
+
+    def convertToBits(self, note):
+        # Convert note to bits
+        pitch_map = {'C': '000', 'D': '001', 'E': '010', 'F': '011', 'G': '100', 'A': '101', 'B': '110'}
+        duration_map = {'w': '000', 'h': '001', 'q': '010', 'e': '011', 's': '100'}
+        octave_map = {'1': '001', '2': '010', '3': '011', '4': '100', '5': '101', '6': '110', '7': '111'}
+
+        pitch = pitch_map[note[0]]
+        # convert octave to 3 bit binary 
+        octave = octave_map[note[1]]
+        duration = duration_map[note[2]]
+
+        return pitch + octave + duration
 
     
     def parseAST(self, node):
