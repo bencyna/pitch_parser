@@ -1,6 +1,7 @@
 import sys
 from Lexer import LexerDfa
 from Parser import Parser
+from Code_Generation import CodeGeneration
 
 def runFullProgram():
    # Run scanner and then run code
@@ -16,8 +17,17 @@ def runFullProgram():
     if errors:
         print("Errors encountered in lexical analysis phase. Parser not run")
     else:
+        print("pring parse tree")
         parser = Parser(tokens)
         parser.print_ParseTree()
+        parser.levelOrderTraversal()
+        # print the code
+        code = CodeGeneration(parser.head)
+        print("Printing code...")
+        code.printCode()
+      
+        
+        
 
 def runTestsForLexer():
     print("\n Test 1 \n\n")
