@@ -421,13 +421,15 @@ def runTestsForParser():
                 print("Parsing succeeded!")
         else:
             print("Parsing failed.")
+            
         
 def runTestsFullprogram():
     Example1 = "play(A4w A4w)"
     Example2 = "Thats= G4w That= G4h Me= B4h Espresso= C4q B4q B4w A4q 5times{play(Thats That Me Espresso A4w B3h G4w)}"
     Example3 = "Happy = A4w Birthday= A4w To = A4w You = D4w 5times {play(Birthday To You)}"
     Example4 = "Happy= A4w Birthday= A4w A9h B4w A4w D4h To = A4w A4h B4w A4w You = D4w 5times {play(Birthday To You)}"
-    tests = [Example1, Example2, Example3, Example4]
+    Example5 = "Ben = A4w play(Jack)"
+    tests = [Example1, Example2, Example3, Example4, Example5]
     for i, test in enumerate(tests, start=1):
         print(f"Running Lexer test {i}...")
         run_parser = LexerDfa(test) 
@@ -440,6 +442,9 @@ def runTestsFullprogram():
             print("Successfully ran lexer, running parser...")
             parser = Parser(tokens)
             parser.print_ParseTree()
+            print("parse tree created, printing code... ")
+            code = CodeGeneration(parser.head)
+            code.printCode()
   
 if len(sys.argv) != 2:
     print("Usage: python3 Main.py <int>\n 0: run tests for lexer. \n 1: run tests for Parser.\n 2 : input your own code in our language and we will run the paerser then lexer on your code.\n 3: Test cases for parser -> scanner" )
@@ -461,6 +466,7 @@ elif type == "1":
     runTestsForParser()
     
 elif type == "3":
-    print("Running tests for parser then scanner...")
+    print("Running tests for parser then scanner, then generating code")
     # Test cases for parser -> scanner
     runTestsFullprogram()
+    
