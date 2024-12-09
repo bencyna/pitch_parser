@@ -49,7 +49,7 @@ class CodeGeneration:
             # its a variable name
             if variable not in self.variables:
                 return False
-            self.code.append(self.variables[variable])
+            self.code.append(self.convertToBits(self.variables[variable]))
         else:
             # its a sound
             self.code.append(self.convertToBits(variable))
