@@ -5,6 +5,7 @@ class CodeGeneration:
         self.ast = ast
         self.variables = {}
         self.code = []
+        self.notes = []
         
     def parseAssignment(self, node):
         # second child is the note value
@@ -49,9 +50,11 @@ class CodeGeneration:
             # its a variable name
             if variable not in self.variables:
                 return False
+            self.notes.append(self.variables[variable])
             self.code.append(self.convertToBits(self.variables[variable]))
         else:
             # its a sound
+            self.notes.append(variable)
             self.code.append(self.convertToBits(variable))
         return True
 
@@ -98,3 +101,7 @@ class CodeGeneration:
         
         for line in self.code:
             print(line)
+
+
+    def getOrderedNotes(self):
+        return self.notes

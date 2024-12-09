@@ -2,6 +2,7 @@ import sys
 from Lexer import LexerDfa
 from Parser import Parser
 from Code_Generation import CodeGeneration
+from GenerateSound import GenerateSound
 
 def runFullProgram():
    # Run scanner and then run code
@@ -470,3 +471,9 @@ elif type == "3":
     # Test cases for parser -> scanner
     runTestsFullprogram()
     
+elif type == "4":
+    print("Parse output to generate sounds")
+    notes = runTestsFullprogram()
+    soundGeneration = GenerateSound(notes)
+    soundGeneration.generateSound()
+
