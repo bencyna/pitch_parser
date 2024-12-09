@@ -446,6 +446,7 @@ def runTestsFullprogram():
             print("parse tree created, printing code... ")
             code = CodeGeneration(parser.head)
             code.printCode()
+            return code.getOrderedNotes()
   
 if len(sys.argv) != 2:
     print("Usage: python3 Main.py <int>\n 0: run tests for lexer. \n 1: run tests for Parser.\n 2 : input your own code in our language and we will run the paerser then lexer on your code.\n 3: Test cases for parser -> scanner" )
