@@ -97,7 +97,6 @@ class CodeGeneration:
     def printCode(self):
         if not self.parseAST(self.ast):
             return False
-        print("Printing code...")
         
         for line in self.code:
             print(line)

@@ -2,7 +2,7 @@ import sys
 from Lexer import LexerDfa
 from Parser import Parser
 from Code_Generation import CodeGeneration
-from GenerateSound import GenerateSound
+
 
 def runFullProgram():
    # Run scanner and then run code
@@ -26,6 +26,8 @@ def runFullProgram():
         code = CodeGeneration(parser.head)
         print("Printing code...")
         code.printCode()
+        return code.getOrderedNotes()    
+    
       
         
         
@@ -425,10 +427,11 @@ def runTestsForParser():
             
         
 def runTestsFullprogram():
-    Example1 = "play(A4w A4w)"
-    Example2 = "Thats= G4w That= G4h Me= B4h Espresso= C4q B4q B4w A4q 5times{play(Thats That Me Espresso A4w B3h G4w)}"
+    return_example1 = None
+    Example1 = "play(A4w F5w)"
+    Example2 = "Thats= G4w That= G4h Me= B4h Espresso= C4q 5times{play(Thats That Me Espresso A4w B3h G4w)}"
     Example3 = "Happy = A4w Birthday= A4w To = A4w You = D4w 5times {play(Birthday To You)}"
-    Example4 = "Happy= A4w Birthday= A4w A9h B4w A4w D4h To = A4w A4h B4w A4w You = D4w 5times {play(Birthday To You)}"
+    Example4 = "Happy= A4w Birthday= A4w To = A4w You = D4w 5times {play(Birthday To You)}"
     Example5 = "Ben = A4w play(Jack)"
     tests = [Example1, Example2, Example3, Example4, Example5]
     for i, test in enumerate(tests, start=1):
@@ -446,7 +449,10 @@ def runTestsFullprogram():
             print("parse tree created, printing code... ")
             code = CodeGeneration(parser.head)
             code.printCode()
-            return code.getOrderedNotes()
+            if i == 1:
+                return_example1 = code.getOrderedNotes()
+                
+    return return_example1
   
 if len(sys.argv) != 2:
     print("Usage: python3 Main.py <int>\n 0: run tests for lexer. \n 1: run tests for Parser.\n 2 : input your own code in our language and we will run the paerser then lexer on your code.\n 3: Test cases for parser -> scanner" )
@@ -474,7 +480,8 @@ elif type == "3":
     
 elif type == "4":
     print("Parse output to generate sounds")
-    notes = runTestsFullprogram()
+    from GenerateSound import GenerateSound
+    notes = runFullProgram()
     soundGeneration = GenerateSound(notes)
     soundGeneration.generateSound()
 
