@@ -150,14 +150,26 @@ To run the Parser tests:<br>
 To run the full program from your own code to bit encoded outputs: <br>
 ``` ./run_full_compiler.sh ``` 
 
+To run the program from your own code to sound outputs: <br>
+``` ./run_sound_integration.sh ``` 
+
 ## Sample Inputs 
 
-Example 1 = "play(A4w F5w)" <br> <br>
+Example 1 = "play(A4w F5w F5w C4q D4q E4q F4q G4q A4q B4q)" <br>
 Expected Output: <br>
-101100000 
-<br> 
+``` 
+101100000
 011101000
-<br>
+011101000
+000100010
+001100010
+010100010
+011100010
+100100010
+101100010
+110100000
+110100001
+```
 <br>
 
 
@@ -226,29 +238,38 @@ Expected Output: <br>
 <br>
 <br>
 
-Example 4 = "Happy= A4w Birthday= A4w To = A4w You = D4w 5times {play(Birthday To You)}" <br>
-Expected Output: <br>
+Example 4 = "White= G4w Lips= A4w Pale = A4w Face = D4w Breathin= D4w In= D4w The= C4q Snowflakes= C4q 3times {play(White Lips Pale Face Breathin In The Snowflakes)}"<br>
 ```
+100100000
 101100000
 101100000
 001100000
+001100000
+001100000
+000100010
+000100010
+100100000
 101100000
 101100000
 001100000
+001100000
+001100000
+000100010
+000100010
+100100000
 101100000
 101100000
 001100000
-101100000
-101100000
 001100000
-101100000
-101100000
 001100000
+000100010
+000100010
+
 ```
 <br>
 <br>
 
-Example 5 = "Ben = A4w play(Jack)" <br>
+Example 5 = "Ben = A4w play(Jack Ben A4w)" <br>
 Expected Output: <br>
 ```
 Error: variable Jack not initialised
