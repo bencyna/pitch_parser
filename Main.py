@@ -428,11 +428,11 @@ def runTestsForParser():
         
 def runTestsFullprogram():
     return_example1 = None
-    Example1 = "play(A4w F5w)"
+    Example1 = "play(A4w F5w F5w C4q D4q E4q F4q G4q A4q B4w B4h)"
     Example2 = "Thats= G4w That= G4h Me= B4h Espresso= C4q 5times{play(Thats That Me Espresso A4w B3h G4w)}"
     Example3 = "Happy = A4w Birthday= A4w To = A4w You = D4w 5times {play(Birthday To You)}"
-    Example4 = "Happy= A4w Birthday= A4w To = A4w You = D4w 5times {play(Birthday To You)}"
-    Example5 = "Ben = A4w play(Jack)"
+    Example4 = "White= G4w Lips= A4w Pale = A4w Face = D4w Breathin= D4w In= D4w The= C4q Snowflakes= C4q 3times {play(White Lips Pale Face Breathin In The Snowflakes)}"
+    Example5 = "Ben = A4w play(Jack Ben A4w)"
     tests = [Example1, Example2, Example3, Example4, Example5]
     for i, test in enumerate(tests, start=1):
         print(f"Running Lexer test {i}...")
