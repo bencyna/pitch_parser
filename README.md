@@ -133,7 +133,7 @@ Make sure you have python3 installed.   <br>
 You can install it from here https://www.python.org/downloads/  <br>
 Now make sure to set the permission for the .sh files by running the following command. <br>
 
-``` chmod +x run_full_compiler.sh run_full_tests.sh run_lexer_tests.sh run_parser_tests.sh run_sound_interation```
+``` chmod +x run_full_compiler.sh run_full_tests.sh run_lexer_tests.sh run_parser_tests.sh run_sound_integration.sh```
 <br>
 
 The provided test cases (see below) are also built into our code. You can run these test cases using the following commands: <br> 
@@ -152,7 +152,7 @@ To run the full program from your own code to bit encoded outputs: <br>
 
 ## Sample Inputs 
 
-Example1 = "play(A4w F5w)" <br> <br>
+Example 1 = "play(A4w F5w)" <br> <br>
 Expected Output: <br>
 101100000 
 <br> 
@@ -161,7 +161,7 @@ Expected Output: <br>
 <br>
 
 
-Example2 = "Thats= G4w That= G4h Me= B4h Espresso= C4q 5times{play(Thats That Me  <br>Espresso A4w B3h G4w)}"
+Example 2 = "Thats= G4w That= G4h Me= B4h Espresso= C4q 5times{play(Thats That Me  <br>Espresso A4w B3h G4w)}"
 Expected Output: <br> 
 ``` 
 100100000
@@ -204,7 +204,7 @@ Expected Output: <br>
 <br>
 
 
-Example3 = "Happy = A4w Birthday= A4w To = A4w You = D4w 5times {play(Birthday To You)}" <br>
+Example 3 = "Happy = A4w Birthday= A4w To = A4w You = D4w 5times {play(Birthday To You)}" <br>
 Expected Output: <br>
 ```
 101100000
@@ -226,7 +226,7 @@ Expected Output: <br>
 <br>
 <br>
 
-Example4 = "Happy= A4w Birthday= A4w To = A4w You = D4w 5times {play(Birthday To You)}" <br>
+Example 4 = "Happy= A4w Birthday= A4w To = A4w You = D4w 5times {play(Birthday To You)}" <br>
 Expected Output: <br>
 ```
 101100000
@@ -248,7 +248,7 @@ Expected Output: <br>
 <br>
 <br>
 
-Example5 = "Ben = A4w play(Jack)" <br>
+Example 5 = "Ben = A4w play(Jack)" <br>
 Expected Output: <br>
 ```
 Error: variable Jack not initialised
