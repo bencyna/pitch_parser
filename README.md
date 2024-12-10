@@ -1,10 +1,10 @@
 # Pitch Parser
 
 ## Summary 
-This is the final iteration of the Pitch Parser, which takes in our made up programming language and generates the bit encodings defined [here](https://www.geognomo.com/geognomo/geotono/). Our code goes through a lexical analysis phase where we tokenize the code. We pass the tokens into our Parser which uses a context free grammar (CFG) we defined to generate an Abstract Syntax Tree (AST) using recursive descent parsing. The AST is fed into the code generation stage which does data analysis while looping through the AST to identify outputs of the program. Optionally, this is run through a pitch parser to generate the sounds defined in the program. Further details explored throughout this README. 
+This is the final iteration of the Pitch Parser, which takes in our made up programming language and generates the bit encodings defined [here](https://www.geognomo.com/geognomo/geotono/). Our code goes through a lexical analysis phase where we tokenize the code. We pass the tokens into our Parser which uses a context free grammar (CFG) we defined to generate an Abstract Syntax Tree (AST) using recursive descent parsing. The AST is fed into the code generation stage which does data analysis while looping through the AST to identify outputs of the program. Optionally, this is run through a pitch parser (GenerateSound.py) to generate the sounds defined in the program. Further details are explored throughout this README. 
 
 - [Lexical Grammar](#lexical-analysis)
-- [Context Free Grammaer](#context-free-grammar)
+- [Context Free Grammar](#context-free-grammar)
 - [Code Generation](#code-generation)
 - [Run Instructions](#run-instructions)
 - [Sample Inputs](#sample-inputs)
@@ -21,7 +21,6 @@ Rules: <br>
 "times" has to be followed by an open bracket "{" <br> 
 "play" has to be followed by an open parenthesis "(" <br>
 
-
 <br>
 NUMBERS = [0-9] <br>
 Rules: <br>
@@ -34,7 +33,6 @@ IDENTIFIER = ['A-Z']['a-z']* <br>
 Rules: <br>
 A variable can be defined as a single captial letter [A-Z] followed by any length string of [a-z] chars. <br>
 An identifier must precede an '=' sign <br>
-
 
 <br>
 OPERATORS = ["="] <br>
@@ -155,6 +153,8 @@ To run the program from your own code to sound outputs: <br>
 
 ## Sample Inputs 
 
+See previous sample inputs for AST Parse Tree [here](https://github.com/bencyna/pitch_parser/commit/15ef280b1e7742864b1a502017340b95365fa10c)
+
 Example 1 = "play(A4w F5w F5w C4q D4q E4q F4q G4q A4q B4q)" <br>
 Expected Output: <br>
 ``` 
@@ -173,7 +173,7 @@ Expected Output: <br>
 <br>
 
 
-Example 2 = "Thats= G4w That= G4h Me= B4h Espresso= C4q 5times{play(Thats That Me  <br>Espresso A4w B3h G4w)}"
+Example 2 = "Thats= G4w That= G4h Me= B4h Espresso= C4q 5times{play(Thats That Me Espresso A4w B3h G4w)}" <br> 
 Expected Output: <br> 
 ``` 
 100100000
@@ -238,7 +238,9 @@ Expected Output: <br>
 <br>
 <br>
 
-Example 4 = "White= G4w Lips= A4w Pale = A4w Face = D4w Breathin= D4w In= D4w The= C4q Snowflakes= C4q 3times {play(White Lips Pale Face Breathin In The Snowflakes)}"<br>
+Example 4 = "White= G4w Lips= A4w Pale = A4w Face = D4w Breathin= D4w In= D4w The= C4q Snowflakes= C4q 3times {play(White Lips Pale Face Breathin In The Snowflakes)}" <br>
+Expected Output: <br>
+
 ```
 100100000
 101100000
