@@ -1,0 +1,46 @@
+# Constant Folding: eval constant expressions at compile time.
+# we don't really have constants? we have variables that are assigned values
+# Dead Code Elim: Remove code that does not affect the program's output.
+# Same Subexpress Elim: 
+# Replace expensive operations with cheaper ones. like the *2 with <<1
+# we don't have this either
+
+# We need at least 4 optimizations to get full credit
+
+class CodeOptimization:
+    def __init__(self, intermediate_code):
+        self.intermediate_code = intermediate_code
+        self.optimized_code = []
+
+    def dead_code_elimination(self):
+        # Remove code that you don't need
+        used_variables = set()
+        for line in reversed(self.optimized_code):
+            if "=" in line:
+                var = line.split('=')[0].strip()
+                if var in used_variables or "play" in line or "times" in line:
+                    used_variables.add(var)
+                    self.optimized_code.insert(0, line)
+            else:
+                self.optimized_code.insert(0, line)
+
+    def common_subexpression_elimination(self):
+        # eliminate expressions that are compute mult times
+        expressions = {}
+        for line in self.optimized_code:
+            if "=" in line:
+                var, expr = line.split('=')
+                var = var.strip()
+                expr = expr.strip()
+                if expr in expressions:
+                    self.optimized_code[self.optimized_code.index(line)] = f"{var} = {expressions[expr]}"
+                else:
+                    expressions[expr] = var
+
+
+    def optimize(self):
+        self.dead_code_elimination()
+        self.common_subexpression_elimination()
+        return self.optimized_code
+
+# Example usage
